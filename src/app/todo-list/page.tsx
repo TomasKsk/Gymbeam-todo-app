@@ -1,17 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react';
-import { createTodo, fetchTodos } from '../utils/api';
-
-// types of todo item
-interface Todo {
-    text: string;
-    complete: boolean;
-    priority: boolean;
-    duedate: string;
-    tags: string[];
-    createdate: string;
-    id: string;
-}
+import { createTodo, fetchTodos, deleteTodo } from '../utils/api';
+import { Todo } from "../types/todo";
 
 const genDueDate = () => {
     const today = new Date();
@@ -25,7 +15,6 @@ const testTodo = {
     duedate: genDueDate(),
     tags: ['test', 'testing'],
     createdate: new Date().toISOString().slice(0,10),
-    id: new Date().valueOf() // create a unique number using date and time
 }
 
 export default function Page() {
@@ -44,10 +33,22 @@ export default function Page() {
         setTodoList(updatedTodos);
     };
 
+    const handleDelete = async (id: string) => {
+        try {
+            await deleteTodo(id);
+            setTodoList(prev => prev.filter(todo => todo.id !== id));
+        } catch(error) {
+            console.error('Failed to delete todo', error);
+        };
+    }
+
     return (
         <div>
             <button onClick={handleNewTodo}>
                 Add a new task
+            </button>
+            <button onClick={() => handleDelete('22')}>
+                Delete the 22. task
             </button>
             <ul>
                 {
