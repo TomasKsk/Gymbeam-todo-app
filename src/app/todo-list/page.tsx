@@ -24,9 +24,7 @@ const testUpdate = {
     tags: ['change', 'update']
 }
 
-interface BodyProps {
-    todoList: Todo[];
-}
+
 
 export default function Page() {
     const [todoList, setTodoList] = useState<Todo[]>([]);
@@ -67,7 +65,7 @@ export default function Page() {
             
             <Header />
 
-            <Body todoList={todoList} />
+            <Body todoList={todoList} setTodoList={setTodoList} />
             
             <button onClick={handleNewTodo}>
                 Add a new task
