@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { createTodo, fetchTodos, deleteTodo, updateTodo } from '../utils/api';
 import { Todo } from "../types/todo";
+import Header from '../components/Header';
+import Body from '../components/Body';
 
 const genDueDate = () => {
     const today = new Date();
@@ -20,6 +22,10 @@ const testTodo = {
 const testUpdate = {
     text: 'this is a changed text',
     tags: ['change', 'update']
+}
+
+interface BodyProps {
+    todoList: Todo[];
 }
 
 export default function Page() {
@@ -58,32 +64,22 @@ export default function Page() {
 
     return (
         <div className='flex flex-col'>
+            
+            <Header />
+
+            <Body todoList={todoList} />
+            
             <button onClick={handleNewTodo}>
                 Add a new task
             </button>
             {/* <button onClick={() => handleDelete('22')}>
                 Delete the 22. task
             </button> */}
-            <button onClick={() => handleUpdate('19', testUpdate)}>
-                Change the todo obj.19
+            <button onClick={() => handleUpdate('18', testUpdate)}>
+                Change the todo obj.18
             </button>
-            <ul>
-                {
-                    todoList.map((obj,index) => {
-                        return(
-                            <li className='flex flex-row gap-4' key={`todo-item-${index}`}>
-                                <p>{obj.id}</p>
-                                <p>{obj.text}</p>
-                                <p>{obj.complete}</p>
-                                <p>{obj.priority}</p>
-                                <p>{obj.duedate}</p>
-                                <p>{obj.tags.join(', ')}</p>
-                                <p>{obj.createdate}</p>
-                                </li>
-                        )
-                    })
-                }
-            </ul>
+
+
         </div>
     )
 }
