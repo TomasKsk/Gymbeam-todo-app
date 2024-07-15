@@ -33,3 +33,15 @@ export const deleteTodo = async(id: string): Promise<void> => {
         throw new Error('Failed to delete todo');
     };
 }
+
+export const updateTodo = async (id: string, todo: Partial<Todo>): Promise<Todo> => {
+    const response = await fetch(`${API_URL}/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(todo),
+    });
+    if (!response.ok) {
+        throw new Error('Failed to update todo');
+    }
+    return response.json();
+};

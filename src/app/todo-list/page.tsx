@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react';
-import { createTodo, fetchTodos, deleteTodo } from '../utils/api';
+import { createTodo, fetchTodos, deleteTodo, updateTodo } from '../utils/api';
 import { Todo } from "../types/todo";
 
 const genDueDate = () => {
@@ -15,6 +15,11 @@ const testTodo = {
     duedate: genDueDate(),
     tags: ['test', 'testing'],
     createdate: new Date().toISOString().slice(0,10),
+}
+
+const testUpdate = {
+    text: 'this is a changed text',
+    tags: ['change', 'update']
 }
 
 export default function Page() {
@@ -38,25 +43,43 @@ export default function Page() {
             await deleteTodo(id);
             setTodoList(prev => prev.filter(todo => todo.id !== id));
         } catch(error) {
-            console.error('Failed to delete todo', error);
+            console.error(`Failed to update todo id: ${id}: `, error);
+        };
+    }
+
+    const handleUpdate = async(id: string, fields: Partial<Todo>) => {
+        try {
+            const updatedTodo = await updateTodo(id, fields);
+            setTodoList((prevTodos) => prevTodos.map((todo) => (todo.id === id ? updatedTodo : todo)));
+        } catch(error) {
+            console.error(`Failed to update todo id: ${id}: `, error);
         };
     }
 
     return (
-        <div>
+        <div className='flex flex-col'>
             <button onClick={handleNewTodo}>
                 Add a new task
             </button>
-            <button onClick={() => handleDelete('22')}>
+            {/* <button onClick={() => handleDelete('22')}>
                 Delete the 22. task
+            </button> */}
+            <button onClick={() => handleUpdate('19', testUpdate)}>
+                Change the todo obj.19
             </button>
             <ul>
                 {
                     todoList.map((obj,index) => {
                         return(
-                            <li key={`todo-item-${index}`}>
-                                {obj.id}
-                            </li>
+                            <li className='flex flex-row gap-4' key={`todo-item-${index}`}>
+                                <p>{obj.id}</p>
+                                <p>{obj.text}</p>
+                                <p>{obj.complete}</p>
+                                <p>{obj.priority}</p>
+                                <p>{obj.duedate}</p>
+                                <p>{obj.tags.join(', ')}</p>
+                                <p>{obj.createdate}</p>
+                                </li>
                         )
                     })
                 }
