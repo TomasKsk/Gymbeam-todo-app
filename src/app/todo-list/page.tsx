@@ -24,7 +24,24 @@ const testUpdate = {
     tags: ['change', 'update']
 }
 
+const formatDate = (timestamp: number | string) => {
+    if (typeof timestamp === 'string') {
+        // If the timestamp is already a string, assume it's already formatted
+        return timestamp;
+    }
+    const date = new Date(timestamp * 1000); // Convert Unix timestamp to milliseconds
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = date.getFullYear();
+    return `${year}-${month}-${day}`;
+};
 
+/*
+todo
+[] - make a loading page with suspense and a fallback
+[] - change the date on fetch in the begining and the load function to convert the unix timestamp
+
+*/
 
 export default function Page() {
     const [todoList, setTodoList] = useState<Todo[]>([]);
@@ -32,9 +49,16 @@ export default function Page() {
     // load the todo data from MockApi on page load using the useEffect hook
     useEffect(() => {
         fetch('https://6694c02a4bd61d8314c873e2.mockapi.io/todo-item')
-        .then(res => res.json())
-        .then(data => setTodoList(data));
-    },[]);
+            .then(res => res.json())
+            .then(data => {
+                const formattedData = data.map((todo: Todo) => ({
+                    ...todo,
+                    duedate: formatDate(todo.duedate),
+                    createdate: formatDate(todo.createdate),
+                }));
+                setTodoList(formattedData);
+            });
+    }, []);
 
     const handleNewTodo = async () => {
         await createTodo(testTodo);
@@ -67,15 +91,7 @@ export default function Page() {
 
             <Body todoList={todoList} setTodoList={setTodoList} />
             
-            <button onClick={handleNewTodo}>
-                Add a new task
-            </button>
-            {/* <button onClick={() => handleDelete('22')}>
-                Delete the 22. task
-            </button> */}
-            <button onClick={() => handleUpdate('18', testUpdate)}>
-                Change the todo obj.18
-            </button>
+
 
 
         </div>

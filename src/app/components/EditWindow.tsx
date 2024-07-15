@@ -1,5 +1,6 @@
 import { Todo } from "../types/todo";
 import { useState, useEffect } from "react";
+import { createTodo, fetchTodos, deleteTodo, updateTodo } from '../utils/api';
 
 interface Editing {
     win: boolean,
@@ -10,7 +11,9 @@ interface Props {
     todo?: Todo,
     editingTodo: Editing,
     setEditingTodo: React.Dispatch<React.SetStateAction<Editing>>
+    setTodoList: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
+
 
 
 /*
@@ -25,7 +28,7 @@ export interface Todo {
 }
 */
 
-const EditWindow: React.FC<Props> = ({ todo, editingTodo, setEditingTodo }) => {
+const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditingTodo }) => {
     const [form, setForm] = useState<Todo>({
         text: '',
         complete: false,
@@ -40,21 +43,22 @@ const EditWindow: React.FC<Props> = ({ todo, editingTodo, setEditingTodo }) => {
         if (todo) {
             setForm(todo);
         }
+        console.log(todo)
     }, [todo]);
 
     const handleClose = () => {
         setEditingTodo({
             win: false,
             id: ''
-        })
+        });
     };
 
     const handleChange = (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
         setForm(prev => ({
             ...prev,
             [key]: e.target.value
-        }))
-    }
+        }));
+    };
 
     const handleCheckBox = (key: keyof Todo) => {
         setForm(prev => ({
@@ -68,6 +72,20 @@ const EditWindow: React.FC<Props> = ({ todo, editingTodo, setEditingTodo }) => {
             const inputElement = e.currentTarget as HTMLInputElement;
             inputElement.blur();
         }
+    };
+
+    const handleUpdate = async(id: string, fields: Partial<Todo>) => {
+        try {
+            const updatedTodo = await updateTodo(id, fields);
+            setTodoList((prevTodos) => prevTodos.map((todo) => (todo.id === id ? updatedTodo : todo)));
+        } catch(error) {
+            console.error(`Failed to update todo id: ${id}: `, error);
+        };
+    }
+
+    const handleSave = (id: string) => {
+        handleUpdate(id, form);
+        handleClose();
     }
 
     return (
@@ -120,8 +138,22 @@ const EditWindow: React.FC<Props> = ({ todo, editingTodo, setEditingTodo }) => {
                                 />
                             </div>
 
-
-                            <button className="absolute px-6 py-2 rounded-md bottom-4 bg-gray-300">
+                            {/* Due Date input */}
+                            <div className="flex flex-row w-full items-center justify-around text-xl">
+                                <label htmlFor="completeCheckbox">
+                                    Due Date
+                                </label>
+                                <input
+                                    id=""
+                                    type="date"
+                                    value={form.duedate}
+                                    onChange={(e) => handleChange('duedate',e)}
+                                />
+                            </div>
+                            
+                            
+                            
+                            <button onClick={() => handleSave(form.id)} className="absolute px-6 py-2 rounded-md bottom-4 bg-gray-300">
                                 Save Changes
                             </button>
                         </div>
