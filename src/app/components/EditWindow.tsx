@@ -108,8 +108,8 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
     }
 
     return (
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] bg-white rounded-xl shadow-xl border-4 border-gray-200 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]">
-            <div className="flex flex-row w-full items-center justify-between bg-gray-400 rounded-t-md">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] bg-gray-200 rounded-xl shadow-xl outline outline-1 border-4 border-gray-300 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]">
+            <div className="flex flex-row w-full items-center justify-between text-gray-100 outline outline-5 outline-gray-900 bg-gray-900 rounded-t-lg">
                 <h2 className="flex flex-col text-lg font-semibold items-center flex-grow py-2 px-4">
                     Edit your todo
                 </h2>
@@ -128,7 +128,7 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
                                 value={form.text}
                                 onChange={(e) => handleChange('text', e)}
                                 onKeyDown={handleKeyDown}
-                                className="w-full flex px-4 py-3 rounded-md bg-gray-200 text-xl"
+                                className="w-full flex px-4 py-3 rounded-md bg-gray-100 text-xl drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
                             />
 
                             <div className="flex flex-row w-full items-center justify-around text-xl">
@@ -152,19 +152,20 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
                             </div>
 
                             {/* Due Date input */}
-                            <div className="flex flex-row w-full items-center justify-around text-xl">
+                            <div className="flex flex-row w-full items-center justify-around text-xl ">
                                 <label htmlFor="dueDate">
-                                    Due Date
+                                    Due Date:
                                 </label>
                                 <input
                                     id="dueDate"
                                     type="date"
                                     value={form.duedate}
                                     onChange={(e) => handleChange('duedate',e)}
+                                    className="drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)] px-2 py-1 rounded-md"
                                 />
                             </div>
                             
-                            <div className="flex flex-row w-full items-center justify-around text-md">
+                            <div className="flex flex-row w-full items-center justify-around text-md gap-2">
                                 <label htmlFor="tagsArray">
                                     #Tags
                                 </label>
@@ -175,7 +176,7 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
                                     onChange={(e) => handleTags(e.target.value)}
                                     onBlur={handleTagsSplitting}
                                     onKeyDown={handleKeyDown}
-                                    className="w-full flex px-3 py-2 rounded-md bg-gray-200"
+                                    className="w-full flex px-3 py-2 rounded-md bg-gray-100 drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
                                 />
                             </div>
                             
@@ -183,7 +184,7 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
                                 Save Changes
                             </div>
 
-                            <button onClick={() => handleSave(form.id)} className="absolute px-6 py-2 rounded-md bottom-4 bg-gray-300">
+                            <button onClick={() => handleSave(form.id)} className="absolute px-6 py-2 rounded-md bottom-4 bg-gray-300 shadow-lg drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                                 Save Changes
                             </button>
                         </div>

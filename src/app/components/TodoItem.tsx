@@ -63,10 +63,11 @@ const TodoItem: React.FC<Props> = ({ todo, setTodoList, setEditingTodo }) => {
     return (
         <div 
             style={{
-                backgroundColor: !todo.priority ? `${todo.complete ? 'rgb(229 231 235)' : 'rgb(243 244 246)'}` : 'rgb(250 204 21)',
-                color: todo.complete && 'rgb(156 163 175)'
+                backgroundColor: !todo.priority ? `${todo.complete ? 'rgb(229 231 235)' : 'rgb(243 244 246)'}` : `${todo.complete ? 'rgb(254 240 138)' : 'rgb(250 204 21)'}`,
+                color: todo.complete ? 'rgb(156 163 175)' : '',
+                filter: todo.complete ? '' : 'drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1)) drop-shadow(0 1.2px 1.2px rgb(0 0 0 / 0.8))'
             }} 
-            className="flex flex-col w-full p-2 rounded-md shadow-xl"
+            className="flex flex-col w-full p-2 rounded-md"
         >
             <div className="flex flex-row justify-between text-sm">
                 <p>
@@ -86,7 +87,7 @@ const TodoItem: React.FC<Props> = ({ todo, setTodoList, setEditingTodo }) => {
 
                 </div>
                 <div className="flex flex-grow items-center justify-center p-2">
-                    <h1 className="text-lg font-bold">{todo.text}</h1>
+                    <h1 style={{}} className="text-lg font-bold">{todo.text}</h1>
                 </div>
                 <div className="flex flex-row items-center gap-2">
                     <div onClick={() => handleEdit(todo.id)} className="cursor-pointer">
