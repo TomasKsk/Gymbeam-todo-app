@@ -1,6 +1,11 @@
 import { Todo } from "../types/todo";
 import { useState, useEffect } from "react";
-import { createTodo, fetchTodos, deleteTodo, updateTodo } from '../utils/api';
+import { fetchTodos, updateTodo } from '../utils/api';
+
+interface Editing {
+    win: boolean,
+    id: string
+}
 
 interface Editing {
     win: boolean,
@@ -99,7 +104,7 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
     }
 
     return (
-        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] bg-gray-300 rounded-xl shadow-xl outline outline-1 border-4 border-gray-300 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]">
+        <div style={{height: !editingTodo.win ? '0px' : '500px', transitionProperty: 'height, opacity', visibility: !editingTodo.win ? 'hidden' : 'visible'}} className="overflow-hidden duration-300 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] bg-gray-300 rounded-xl shadow-xl outline outline-1 border-4 border-gray-300 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]">
             <div className="flex flex-row w-full items-center justify-between text-gray-100 outline outline-5 outline-gray-900 bg-gray-900 rounded-t-lg">
                 <h2 className="flex flex-col text-lg font-semibold items-center flex-grow py-2 px-4">
                     Edit your todo
@@ -109,7 +114,7 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
                 </button>
             </div>
 
-            <div className="flex flex-col p-4">
+            <div className="flex flex-col">
                 {/* {todo ? todo.id : 'Loading...'} */}
                 {
                     form ?
@@ -175,7 +180,7 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
                                 Save Changes
                             </div>
 
-                            <button onClick={() => handleSave(form.id)} className="absolute px-6 py-2 rounded-md bottom-4 bg-gray-300 shadow-lg drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+                            <button onClick={() => handleSave(form.id)} className="absolute px-6 py-2 rounded-md bottom-4 bg-white shadow-lg drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                                 Save Changes
                             </button>
                         </div>

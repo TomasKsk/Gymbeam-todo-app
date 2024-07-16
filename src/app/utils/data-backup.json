@@ -1,0 +1,210 @@
+[
+    {
+        "text": "work on assignment",
+        "complete": false,
+        "priority": true,
+        "duedate": "2024-07-18",
+        "tags": ["GymBeam", "front-end", "assignment"],
+        "createdate": "2024-07-15",
+        "checkdate": 1721024737,
+        "id": "5"
+    }, {
+        "text": "create a function to handle form check",
+        "complete": true,
+        "priority": false,
+        "duedate": "2024-07-16",
+        "tags": ["form", "checking", "testing"],
+        "createdate": "2024-07-16",
+        "checkdate": "",
+        "id": "11"
+    }, {
+        "text": "find out why I cant scroll the body component",
+        "complete": true,
+        "priority": true,
+        "duedate": "2024-07-16",
+        "tags": ["scrolling", "css"],
+        "createdate": "2024-07-16",
+        "checkdate": "",
+        "id": "13"
+    }, {
+        "text": "delete function should ask the user if he wants to delete",
+        "complete": true,
+        "priority": false,
+        "duedate": "2024-07-16",
+        "tags": [],
+        "createdate": "2024-07-16",
+        "checkdate": "",
+        "id": "14"
+    }, {
+        "text": "the body component should have a padding on the bottom ",
+        "complete": true,
+        "priority": false,
+        "duedate": "2024-07-16",
+        "tags": ["Body", "component", "padding"],
+        "createdate": "2024-07-16",
+        "checkdate": "",
+        "id": "15"
+    }, {
+        "text": "footer and header should be sticky",
+        "complete": true,
+        "priority": true,
+        "duedate": "2024-07-16",
+        "tags": ["footer", "header", "sticky", "css"],
+        "createdate": "2024-07-16",
+        "checkdate": "",
+        "id": "16"
+    }, {
+        "text": "add text style line-through on items that are checked",
+        "complete": true,
+        "priority": false,
+        "duedate": "2024-07-16",
+        "tags": ["text", "decoration", "todoItem"],
+        "createdate": "2024-07-16",
+        "checkdate": "",
+        "id": "18"
+    }, {
+        "text": "sort the todos on page load, firstly the priority, then not complete and the complete ",
+        "complete": true,
+        "priority": true,
+        "duedate": "2024-07-16",
+        "tags": ["todo", "sorting"],
+        "createdate": "2024-07-16",
+        "checkdate": "",
+        "id": "19"
+    }, {
+        "text": "complete button should trigger refetching data",
+        "complete": true,
+        "priority": false,
+        "duedate": "2024-07-16",
+        "tags": ["complete-button", "refetch"],
+        "createdate": "2024-07-16",
+        "checkdate": "",
+        "id": "20"
+    }, {
+        "text": "debug, on some items, the edit, delete, complete buttons dont work",
+        "complete": true,
+        "priority": true,
+        "duedate": "2024-07-16",
+        "tags": ["debugging", "review"],
+        "createdate": "2024-07-16",
+        "checkdate": "",
+        "id": "21"
+    }, {
+        "text": "on complete function, generate the checkdate",
+        "complete": true,
+        "priority": false,
+        "duedate": "2024-07-16",
+        "tags": [],
+        "createdate": "2024-07-16",
+        "checkdate": "2024-07-16",
+        "id": "22"
+    }, {
+        "text": "implement dark mode, use useContext or tailwind class",
+        "complete": false,
+        "priority": true,
+        "duedate": "2024-07-16",
+        "tags": ["dark-mode", "useContext", "css"],
+        "createdate": "2024-07-16",
+        "checkdate": "",
+        "id": "23"
+    }, {
+        "text": "use media queries for all devices",
+        "complete": false,
+        "priority": false,
+        "duedate": "2024-07-16",
+        "tags": ["media-query", "css", "mobile"],
+        "createdate": "2024-07-16",
+        "checkdate": "2024-07-16",
+        "id": "24"
+    }, {
+        "text": "have multiple todo lists and check if the mockapi can handle new database",
+        "complete": false,
+        "priority": true,
+        "duedate": "2024-07-16",
+        "tags": ["multi-lists", "new-sql", "mockapi"],
+        "createdate": "2024-07-16",
+        "checkdate": "",
+        "id": "25"
+    }, {
+        "text": "on clicking on the text of the todo item, it should trigger the edit window",
+        "complete": true,
+        "priority": false,
+        "duedate": "2024-07-16",
+        "tags": ["edit", "additional-access"],
+        "createdate": "2024-07-16",
+        "checkdate": "2024-07-16",
+        "id": "26"
+    }, {
+        "text": "implement icons for the edit and delete buttons",
+        "complete": false,
+        "priority": false,
+        "duedate": "2024-07-16",
+        "tags": ["icons", "styling"],
+        "createdate": "2024-07-16",
+        "checkdate": "",
+        "id": "27"
+    }, {
+        "text": "the checkboxes in the todo item should be bigger",
+        "complete": true,
+        "priority": false,
+        "duedate": "2024-07-16",
+        "tags": ["optimizing", "css"],
+        "createdate": "2024-07-16",
+        "checkdate": "2024-07-16",
+        "id": "28"
+    }, {
+        "text": "createwindow - create button should have a different color, mainly contrast",
+        "complete": true,
+        "priority": false,
+        "duedate": "2024-07-16",
+        "tags": ["wcag", "contrast-ratio", "css"],
+        "createdate": "2024-07-16",
+        "checkdate": "2024-07-16",
+        "id": "29"
+    }, {
+        "text": "if i will make it in time, implement a settings menu, with different styles, about, help maybe?",
+        "complete": false,
+        "priority": false,
+        "duedate": "2024-07-16",
+        "tags": ["ideas", "challenges"],
+        "createdate": "2024-07-16",
+        "checkdate": "",
+        "id": "30"
+    }, {
+        "text": "learn about the time response of mockapi, sometimes the returning request takes too long",
+        "complete": false,
+        "priority": false,
+        "duedate": "2024-07-16",
+        "tags": ["optimization", "reqests", "devtools"],
+        "createdate": "2024-07-16",
+        "checkdate": "",
+        "id": "31"
+    }, {
+        "text": "debouncing functions using React query",
+        "complete": false,
+        "priority": false,
+        "duedate": "2024-07-16",
+        "tags": ["react-query", "debounce", "limit-function-firing"],
+        "createdate": "2024-07-16",
+        "checkdate": "",
+        "id": "32"
+    }, {
+        "text": "metaData optimalisation",
+        "complete": false,
+        "priority": false,
+        "duedate": "2024-07-16",
+        "tags": ["next-js-seo", "meta-data"],
+        "createdate": "2024-07-16",
+        "checkdate": "",
+        "id": "33"
+    }, {
+        "text": "change how the edit window appears. make a smooth transition as on the create window",
+        "complete": false,
+        "priority": false,
+        "duedate": "2024-07-16",
+        "tags": ["css", "styling", "transitions"],
+        "createdate": "2024-07-16",
+        "checkdate": "",
+        "id": "34"
+    }
+]

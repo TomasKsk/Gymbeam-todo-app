@@ -24,10 +24,8 @@ const Body: React.FC<Props> = ({ todoList, setTodoList }) => {
                 })
             }
 
-            {
-                editingTodo.win &&
-                    <EditWindow todo={todoList.find(a => a.id === editingTodo.id)} setTodoList={setTodoList} editingTodo={editingTodo} setEditingTodo={setEditingTodo} />
-            }
+            <EditWindow todo={todoList.find(a => a.id === editingTodo.id)} setTodoList={setTodoList} editingTodo={editingTodo} setEditingTodo={setEditingTodo} />
+
 
         </div>
     )

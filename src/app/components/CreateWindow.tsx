@@ -85,7 +85,7 @@ const CreateWindow: React.FC<Props> = ({ setTodoList, createWin, setCreateWin })
     }
 
     return (
-        <div style={{height: !createWin ? '0px' : '500px',display: !createWin ? 'none' : 'inline', opacity: !createWin ? '0' : '1'}} className="duration-300 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] bg-gray-300 rounded-xl shadow-xl outline outline-1 border-4 border-gray-300 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]">
+        <div style={{height: !createWin ? '0px' : '500px', transitionProperty: 'height, opacity', visibility: !createWin ? 'hidden' : 'visible'}} className="duration-300 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] bg-gray-300 rounded-xl shadow-xl outline outline-1 border-4 border-gray-300 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]">
             <div className="flex flex-row w-full items-center justify-between text-gray-100 outline outline-5 outline-gray-900 bg-gray-900 rounded-t-lg">
                 <h2 className="flex flex-col text-lg font-semibold items-center flex-grow py-2 px-4">
                     Create a new todo Item
@@ -95,7 +95,7 @@ const CreateWindow: React.FC<Props> = ({ setTodoList, createWin, setCreateWin })
                 </button>
             </div>
 
-            <div style={{padding: !createWin ? '0' : '0.75rem', display: !createWin ? 'none' : 'inline'}} className="flex flex-col">
+            <div style={{padding: !createWin ? '0' : '0.75rem', display: !createWin ? 'none' : 'block'}} className="flex flex-col">
                 {/* {todo ? todo.id : 'Loading...'} */}
                 {
                     createForm ?
@@ -164,7 +164,7 @@ const CreateWindow: React.FC<Props> = ({ setTodoList, createWin, setCreateWin })
                                 Save Changes
                             </div>
 
-                            <button onClick={() => handleSave(createForm.id)} className="absolute px-6 py-2 rounded-md bottom-4 bg-gray-300 shadow-lg drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+                            <button onClick={() => handleSave(createForm.id)} className="absolute px-6 py-2 rounded-md bottom-4 bg-white shadow-lg drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                                 Create Todo Item
                             </button>
                         </div>

@@ -1,21 +1,29 @@
 'use client'
 import { useState, useEffect } from 'react';
-import { fetchTodos } from '../utils/api';
-import { Todo } from "../types/todo";
+import { fetchTodosV2 } from '../../utils/api';
+import { Todo } from "../../types/todo";
 
-import Header from '../components/Header';
-import Body from '../components/Body';
-import Footer from '../components/Footer';
-import CreateWindow from '../components/CreateWindow';
+import Header from '../../components/Header';
+import Body from '../../components/Body';
+import Footer from '../../components/Footer';
+import CreateWindow from '../../components/CreateWindow';
 
-export default function Page() {
+interface Props {
+    params: {
+        list: string;
+    };
+}
+
+const Page:React.FC<Props> = ({ params }) => {
+    const list = params.list
+
     const [todoList, setTodoList] = useState<Todo[]>([]);
     const [createWin, setCreateWin] = useState<boolean>(false);
 
     
     // load the todo data from MockApi on page load using the useEffect hook
     useEffect(() => {
-        fetchTodos()
+        fetchTodosV2(list)
             .then(data => setTodoList(data))
             .catch(error => console.error('Failed to fetch todos', error));
     }, []);
@@ -34,3 +42,5 @@ export default function Page() {
         </div>
     )
 }
+
+export default Page;

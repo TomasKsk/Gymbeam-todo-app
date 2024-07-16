@@ -35,6 +35,44 @@ export const fetchTodos = async (): Promise<Todo[]> => {
     return formattedData;
 };
 
+export const fetchTodosV2 = async (list: string): Promise<Todo[]> => {
+    const url = new URL(API_URL);
+    url.searchParams.append('list', list);
+    url.searchParams.append('order', 'desc')
+    console.log(url)
+  
+    const response = await fetch(url.toString(), {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'},
+    });
+  
+    if (!response.ok) {
+      throw new Error('Failed to fetch todos');
+    }
+  
+    const data = await response.json();
+  
+    // Format the dates
+    const formattedData = data.map((todo: Todo) => ({
+      ...todo,
+      duedate: formatDate(todo.duedate),
+      createdate: formatDate(todo.createdate),
+    }));
+  
+    // Additional sorting logic: Priority and Completeness
+    formattedData.sort((a: Todo, b: Todo) => {
+      if (a.priority && !b.priority) {
+        return -1;
+      }
+      if (!a.complete && b.complete) {
+        return -1;
+      }
+      return 0;
+    });
+  
+    return formattedData;
+  };
+
 export const createTodo = async(todo: Omit<Todo, 'id'>): Promise<Todo> => {
     const response = await fetch(API_URL, {
         method: 'POST',

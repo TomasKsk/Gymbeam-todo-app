@@ -1,7 +1,6 @@
 import { Todo } from "../types/todo"
 import { deleteTodo, fetchTodos, updateTodo } from '../utils/api';
-import { useState } from "react";
-import EditWindow from "./EditWindow";
+import { todayDate } from "../utils/date-functions";
 
 interface Editing {
     win: boolean,
@@ -26,10 +25,6 @@ const convertDate = (dateString: string) => {
 
     return `${day}/${month}/${shortYear}`;
 }
-
-// what to do:
-// [] - before passing the todolist, sort the list by priority, then not done items and lastly done items
-// [x] - format the linux date to get dd/mm/yy 
 
 const TodoItem: React.FC<Props> = ({ todo, setTodoList, setEditingTodo }) => {
     
@@ -85,16 +80,19 @@ const TodoItem: React.FC<Props> = ({ todo, setTodoList, setEditingTodo }) => {
             </div>
             <div className="flex flex-row justify-between p-2">
                 <div className="m-auto">
-                    <input className="size-[20px]" 
+                    <input className="size-[30px]" 
                         type="checkbox" 
                         checked={todo.complete}
-                        onChange={() => handleUpdate(todo.id, {complete: !todo.complete})}
+                        onChange={() => handleUpdate(todo.id, {complete: !todo.complete, checkdate: todayDate()})}
                     />
 
                 </div>
-                <div style={{textDecorationLine: todo.complete ? 'line-through' : 'none'}} className="line-through flex flex-grow items-center justify-center p-2">
+
+                {/* todo text */}
+                <div onClick={() => handleEdit(todo.id)} style={{textDecorationLine: todo.complete ? 'line-through' : 'none'}} className="line-through flex flex-grow items-center justify-center p-2">
                     <h1 style={{}} className="text-lg font-bold">{todo.text}</h1>
                 </div>
+
                 <div className="flex flex-row items-center gap-2">
                     <div onClick={() => handleEdit(todo.id)} className="cursor-pointer">
                         edit

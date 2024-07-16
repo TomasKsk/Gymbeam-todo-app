@@ -7,4 +7,5 @@ export interface Todo {
     createdate: string;
     checkdate: string;
     id: string;
+    list: string;
 }
