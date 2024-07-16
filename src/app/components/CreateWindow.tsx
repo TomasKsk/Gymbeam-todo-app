@@ -49,7 +49,6 @@ const CreateWindow: React.FC<Props> = ({ setTodoList, createWin, setCreateWin })
     const handleTags = (e: string) => {
         // auto replace white space and # character with ,
         const tags = e.replace(/\s|#/g, ',').split(',').map(a => a.trim())
-        console.log(tags)
         setCreateForm(prev => ({
             ...prev,
             tags: tags
@@ -82,11 +81,11 @@ const CreateWindow: React.FC<Props> = ({ setTodoList, createWin, setCreateWin })
             tags: [],
             checkdate: '',
             id: ''
-        }))
+        }));
     }
 
     return (
-        <div style={{height: !createWin ? '0px' : '500px', opacity: !createWin ? '0' : '1'}} className="duration-300 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] bg-gray-200 rounded-xl shadow-xl outline outline-1 border-4 border-gray-300 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]">
+        <div style={{height: !createWin ? '0px' : '500px',display: !createWin ? 'none' : 'inline', opacity: !createWin ? '0' : '1'}} className="duration-300 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] bg-gray-300 rounded-xl shadow-xl outline outline-1 border-4 border-gray-300 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]">
             <div className="flex flex-row w-full items-center justify-between text-gray-100 outline outline-5 outline-gray-900 bg-gray-900 rounded-t-lg">
                 <h2 className="flex flex-col text-lg font-semibold items-center flex-grow py-2 px-4">
                     Create a new todo Item

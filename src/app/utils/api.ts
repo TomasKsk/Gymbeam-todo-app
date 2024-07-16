@@ -1,14 +1,38 @@
 import { Todo } from "../types/todo";
+import { formatDate } from "./date-functions";
 
 const API_URL = 'https://6694c02a4bd61d8314c873e2.mockapi.io/todo-item';
 
-export const fetchTodos = async(): Promise<Todo[]> => {
+export const fetchTodos = async (): Promise<Todo[]> => {
     const response = await fetch(API_URL);
     if (!response.ok) {
-        throw new Error('Failed to fetch todos');
+      throw new Error('Failed to fetch todos');
     }
     const data = await response.json();
-    return data;
+  
+    // Format the dates
+    const formattedData = data.map((todo: Todo) => ({
+      ...todo,
+      duedate: formatDate(todo.duedate),
+      createdate: formatDate(todo.createdate),
+    }));
+  
+    // Sorting logic
+    formattedData.sort((a: Todo, b: Todo) => {
+      if (a.priority && !b.priority) {
+        return -1;
+      }
+      return 0;
+    });
+  
+    formattedData.sort((a: Todo, b: Todo) => {
+      if (!a.complete && b.complete) {
+        return -1;
+      }
+      return 0;
+    });
+  
+    return formattedData;
 };
 
 export const createTodo = async(todo: Omit<Todo, 'id'>): Promise<Todo> => {

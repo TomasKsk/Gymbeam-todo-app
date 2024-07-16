@@ -1,5 +1,5 @@
 import { Todo } from "../types/todo"
-import { deleteTodo, updateTodo } from '../utils/api';
+import { deleteTodo, fetchTodos, updateTodo } from '../utils/api';
 import { useState } from "react";
 import EditWindow from "./EditWindow";
 
@@ -37,27 +37,34 @@ const TodoItem: React.FC<Props> = ({ todo, setTodoList, setEditingTodo }) => {
         try {
             const updatedTodo = await updateTodo(id, fields);
             setTodoList((prevTodos) => prevTodos.map((todo) => (todo.id === id ? updatedTodo : todo)));
+
+            fetchTodos()
+                .then(data => setTodoList(data))
+                .catch(error => console.error('Failed to fetch todos', error));
+                
         } catch(error) {
             console.error(`Failed to update todo id: ${id}: `, error);
         };
     }
 
     const handleDelete = async (id: string) => {
-        try {
-            await deleteTodo(id);
-            setTodoList(prev => prev.filter(todo => todo.id !== id));
-        } catch(error) {
-            console.error(`Failed to update todo id: ${id}: `, error);
-        };
-    }
+        var result = confirm("Are you sure you want to delete this Item?");
+        if (result) {
+            try {
+                await deleteTodo(id);
+                setTodoList(prev => prev.filter(todo => todo.id !== id));
+            } catch(error) {
+                console.error(`Failed to update todo id: ${id}: `, error);
+            };
+        }
+    };
 
     const handleEdit = (id: string) => {
-        console.log(id)
         setEditingTodo({
             win: true,
             id: id
-        })
-    }
+        });
+    };
 
     return (
         <div 
@@ -86,7 +93,7 @@ const TodoItem: React.FC<Props> = ({ todo, setTodoList, setEditingTodo }) => {
 
                 </div>
                 <div style={{textDecorationLine: todo.complete ? 'line-through' : 'none'}} className="line-through flex flex-grow items-center justify-center p-2">
-                    <h1 style={{}} className="text-lg font-bold">{todo.id}.{todo.text}</h1>
+                    <h1 style={{}} className="text-lg font-bold">{todo.text}</h1>
                 </div>
                 <div className="flex flex-row items-center gap-2">
                     <div onClick={() => handleEdit(todo.id)} className="cursor-pointer">
