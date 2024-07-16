@@ -18,9 +18,7 @@ interface Props {
 const convertDate = (dateString: string) => {
     // Ensure the date string is in the correct format
     const regex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!regex.test(dateString)) {
-        throw new Error("Date string is not in the format yyyy-mm-dd");
-    }
+
 
     // Split the date string into components
     const [year, month, day] = dateString.split('-');

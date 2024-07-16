@@ -2,9 +2,12 @@
 import { useState, useEffect } from 'react';
 import { createTodo, fetchTodos, deleteTodo, updateTodo } from '../utils/api';
 import { Todo } from "../types/todo";
+import { formatDate } from '../utils/date-functions';
+
 import Header from '../components/Header';
 import Body from '../components/Body';
 import Footer from '../components/Footer';
+import CreateWindow from '../components/CreateWindow';
 
 const genDueDate = () => {
     const today = new Date();
@@ -25,17 +28,7 @@ const testUpdate = {
     tags: ['change', 'update']
 }
 
-const formatDate = (timestamp: number | string) => {
-    if (typeof timestamp === 'string') {
-        // If the timestamp is already a string, assume it's already formatted
-        return timestamp;
-    }
-    const date = new Date(timestamp * 1000); // Convert Unix timestamp to milliseconds
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-    const year = date.getFullYear();
-    return `${year}-${month}-${day}`;
-};
+
 
 /*
 todo
@@ -46,6 +39,8 @@ todo
 
 export default function Page() {
     const [todoList, setTodoList] = useState<Todo[]>([]);
+    const [createWin, setCreateWin] = useState<boolean>(false);
+
     
     // load the todo data from MockApi on page load using the useEffect hook
     useEffect(() => {
@@ -88,12 +83,22 @@ export default function Page() {
     return (
         <div className='flex flex-col'>
             
-            <Header />
+            <span className='fixed w-full top-0 z-10'>
+                <Header />
+            </span>
+            <span className='invisible'>
+                <Header />
+            </span>
 
             <Body todoList={todoList} setTodoList={setTodoList} />
             
-            <Footer />
+            <span className='fixed w-full bottom-0 z-10'>
+                <Footer setCreateWin={setCreateWin} />
+            </span>
 
+            
+
+            <CreateWindow createWin={createWin} setTodoList={setTodoList} setCreateWin={setCreateWin}/>
 
         </div>
     )

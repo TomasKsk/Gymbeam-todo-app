@@ -5,5 +5,6 @@ export interface Todo {
     duedate: string;
     tags: string[];
     createdate: string;
+    checkdate: string;
     id: string;
 }

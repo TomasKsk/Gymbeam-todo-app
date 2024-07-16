@@ -15,7 +15,7 @@ const Body: React.FC<Props> = ({ todoList, setTodoList }) => {
     });
 
     return (
-        <div className="flex flex-col gap-4 p-4">
+        <div className="flex flex-col gap-4 p-4 mb-[100px]">
             {
                 todoList.map(obj => {
                     return (

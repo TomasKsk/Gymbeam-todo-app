@@ -1,54 +1,39 @@
-import { Todo } from "../types/todo";
-import { useState, useEffect } from "react";
-import { createTodo, fetchTodos, deleteTodo, updateTodo } from '../utils/api';
-
-interface Editing {
-    win: boolean,
-    id: string
-}
+import { useState } from "react";
+import { Todo } from "../types/todo"
+import { todayDate } from '../utils/date-functions';
+import { createTodo, fetchTodos } from '../utils/api';
 
 interface Props {
-    todo?: Todo,
-    editingTodo: Editing,
-    setEditingTodo: React.Dispatch<React.SetStateAction<Editing>>
+    createWin: boolean;
     setTodoList: React.Dispatch<React.SetStateAction<Todo[]>>;
+    setCreateWin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditingTodo }) => {
-    const [form, setForm] = useState<Todo>({
+const CreateWindow: React.FC<Props> = ({ setTodoList, createWin, setCreateWin }) => {
+    const [createForm, setCreateForm] = useState<Todo>({
         text: '',
         complete: false,
         priority: false,
-        duedate: '',
+        duedate: todayDate(),
         tags: [],
-        createdate: '',
+        createdate: todayDate(),
         checkdate: '',
         id: ''
-    });
-
-    useEffect(() => {
-        if (todo) {
-            setForm(todo);
-        }
-        console.log(todo)
-    }, [todo]);
+    })
 
     const handleClose = () => {
-        setEditingTodo({
-            win: false,
-            id: ''
-        });
+        setCreateWin(false)
     };
 
     const handleChange = (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
-        setForm(prev => ({
+        setCreateForm(prev => ({
             ...prev,
             [key]: e.target.value
         }));
     };
 
     const handleCheckBox = (key: keyof Todo) => {
-        setForm(prev => ({
+        setCreateForm(prev => ({
             ...prev,
             [key]: !prev[key]
         }));
@@ -65,7 +50,7 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
         // auto replace white space and # character with ,
         const tags = e.replace(/\s|#/g, ',').split(',').map(a => a.trim())
         console.log(tags)
-        setForm(prev => ({
+        setCreateForm(prev => ({
             ...prev,
             tags: tags
         }));
@@ -73,55 +58,63 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
 
     // on blur filter out the empty array items
     const handleTagsSplitting = () => {
-        const tags = form.tags.filter(a => a.length > 0)
-        setForm(prev => ({
+        const tags = createForm.tags.filter(a => a.length > 0)
+        setCreateForm(prev => ({
             ...prev,
             tags: tags
         }));
     }
- 
-    const handleUpdate = async(id: string, fields: Partial<Todo>) => {
-        try {
-            const updatedTodo = await updateTodo(id, fields);
-            setTodoList((prevTodos) => prevTodos.map((todo) => (todo.id === id ? updatedTodo : todo)));
-        } catch(error) {
-            console.error(`Failed to update todo id: ${id}: `, error);
-        };
-    }
+
+    const handleNewTodo = async () => {
+        await createTodo(createForm);
+        const updatedTodos = await fetchTodos();
+        setTodoList(updatedTodos);
+    };
 
     const handleSave = (id: string) => {
-        handleUpdate(id, form);
+        handleNewTodo();
         handleClose();
+        setCreateForm(prev => ({
+            ...prev,
+            text: '',
+            complete: false,
+            priority: false,
+            tags: [],
+            checkdate: '',
+            id: ''
+        }))
     }
 
     return (
-        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] bg-gray-200 rounded-xl shadow-xl outline outline-1 border-4 border-gray-300 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]">
+        <div style={{height: !createWin ? '0px' : '500px', opacity: !createWin ? '0' : '1'}} className="duration-300 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] bg-gray-200 rounded-xl shadow-xl outline outline-1 border-4 border-gray-300 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]">
             <div className="flex flex-row w-full items-center justify-between text-gray-100 outline outline-5 outline-gray-900 bg-gray-900 rounded-t-lg">
                 <h2 className="flex flex-col text-lg font-semibold items-center flex-grow py-2 px-4">
-                    Edit your todo
+                    Create a new todo Item
                 </h2>
                 <button className="font-black text-xl p-2" onClick={handleClose}>
                     X
                 </button>
             </div>
 
-            <div className="flex flex-col p-4">
+            <div style={{padding: !createWin ? '0' : '0.75rem', display: !createWin ? 'none' : 'inline'}} className="flex flex-col">
                 {/* {todo ? todo.id : 'Loading...'} */}
                 {
-                    form ?
+                    createForm ?
                         <div className="flex flex-col gap-8 items-center">
                             <input 
                                 type="text"
-                                value={form.text}
+                                placeholder="eg. Buy carrots"
+                                value={createForm.text}
                                 onChange={(e) => handleChange('text', e)}
                                 onKeyDown={handleKeyDown}
-                                className="w-full flex px-4 py-3 rounded-md bg-gray-100 text-xl drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
+                                style={{padding: !createWin ? '0' : '0.75rem'}}
+                                className="w-full flex rounded-md bg-gray-100 text-xl drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
                             />
 
                             <div className="flex flex-row w-full items-center justify-around text-xl">
                                 {/* priority checkbox */}
                                 <button 
-                                    style={{backgroundColor: form.priority ? 'rgb(250 204 21)' : 'rgb(243 244 246)'}} 
+                                    style={{backgroundColor: createForm.priority ? 'rgb(250 204 21)' : 'rgb(243 244 246)'}} 
                                     className="px-6 py-3 bg-gray-100 rounded-md drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"
                                     onClick={() => handleCheckBox('priority')}
                                 >
@@ -130,7 +123,7 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
 
                                 {/* complete checkbox */}
                                 <button 
-                                    style={{backgroundColor: form.complete ? 'rgb(250 204 21)' : 'rgb(243 244 246)'}} 
+                                    style={{backgroundColor: createForm.complete ? 'rgb(250 204 21)' : 'rgb(243 244 246)'}} 
                                     className="px-6 py-3 bg-gray-100 rounded-md drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"
                                     onClick={() => handleCheckBox('complete')}
                                 >
@@ -146,7 +139,7 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
                                 <input
                                     id="dueDate"
                                     type="date"
-                                    value={form.duedate}
+                                    value={createForm.duedate}
                                     onChange={(e) => handleChange('duedate',e)}
                                     className="drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)] px-2 py-1 rounded-md"
                                 />
@@ -158,8 +151,9 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
                                 </label>
                                 <input
                                     id="tagsArray"
+                                    placeholder="eg. shopping, health, carrots"
                                     type="text"
-                                    value={form.tags}
+                                    value={createForm.tags}
                                     onChange={(e) => handleTags(e.target.value)}
                                     onBlur={handleTagsSplitting}
                                     onKeyDown={handleKeyDown}
@@ -171,8 +165,8 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
                                 Save Changes
                             </div>
 
-                            <button onClick={() => handleSave(form.id)} className="absolute px-6 py-2 rounded-md bottom-4 bg-gray-300 shadow-lg drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
-                                Save Changes
+                            <button onClick={() => handleSave(createForm.id)} className="absolute px-6 py-2 rounded-md bottom-4 bg-gray-300 shadow-lg drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+                                Create Todo Item
                             </button>
                         </div>
                     : 'Loading...'
@@ -182,4 +176,4 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
     )
 };
 
-export default EditWindow;
+export default CreateWindow;
