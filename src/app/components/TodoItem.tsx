@@ -1,5 +1,5 @@
 import { Todo } from "../types/todo"
-import { createTodo, fetchTodos, deleteTodo, updateTodo } from '../utils/api';
+import { deleteTodo, updateTodo } from '../utils/api';
 import { useState } from "react";
 import EditWindow from "./EditWindow";
 
@@ -52,6 +52,7 @@ const TodoItem: React.FC<Props> = ({ todo, setTodoList, setEditingTodo }) => {
     }
 
     const handleEdit = (id: string) => {
+        console.log(id)
         setEditingTodo({
             win: true,
             id: id
@@ -84,8 +85,8 @@ const TodoItem: React.FC<Props> = ({ todo, setTodoList, setEditingTodo }) => {
                     />
 
                 </div>
-                <div className="flex flex-grow items-center justify-center p-2">
-                    <h1 style={{}} className="text-lg font-bold">{todo.text}</h1>
+                <div style={{textDecorationLine: todo.complete ? 'line-through' : 'none'}} className="line-through flex flex-grow items-center justify-center p-2">
+                    <h1 style={{}} className="text-lg font-bold">{todo.id}.{todo.text}</h1>
                 </div>
                 <div className="flex flex-row items-center gap-2">
                     <div onClick={() => handleEdit(todo.id)} className="cursor-pointer">

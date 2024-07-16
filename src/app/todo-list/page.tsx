@@ -52,6 +52,20 @@ export default function Page() {
                     duedate: formatDate(todo.duedate),
                     createdate: formatDate(todo.createdate),
                 }));
+
+                // Sorting logic
+                formattedData.sort((a: Todo, b: Todo) => {
+                    if (a.priority && !b.priority) {
+                        return -1
+                    } return 0
+                });
+
+                formattedData.sort((a: Todo, b: Todo) => {
+                    if (!a.complete && b.complete) {
+                        return -1
+                    } return 0
+                });
+        
                 setTodoList(formattedData);
             });
     }, []);
@@ -86,17 +100,12 @@ export default function Page() {
             <span className='fixed w-full top-0 z-10'>
                 <Header />
             </span>
-            <span className='invisible'>
-                <Header />
-            </span>
 
             <Body todoList={todoList} setTodoList={setTodoList} />
             
             <span className='fixed w-full bottom-0 z-10'>
                 <Footer setCreateWin={setCreateWin} />
             </span>
-
-            
 
             <CreateWindow createWin={createWin} setTodoList={setTodoList} setCreateWin={setCreateWin}/>
 

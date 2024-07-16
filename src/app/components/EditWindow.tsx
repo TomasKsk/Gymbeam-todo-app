@@ -30,7 +30,6 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
         if (todo) {
             setForm(todo);
         }
-        console.log(todo)
     }, [todo]);
 
     const handleClose = () => {
