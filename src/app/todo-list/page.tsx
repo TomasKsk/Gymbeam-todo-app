@@ -4,6 +4,7 @@ import { createTodo, fetchTodos, deleteTodo, updateTodo } from '../utils/api';
 import { Todo } from "../types/todo";
 import Header from '../components/Header';
 import Body from '../components/Body';
+import Footer from '../components/Footer';
 
 const genDueDate = () => {
     const today = new Date();
@@ -91,7 +92,7 @@ export default function Page() {
 
             <Body todoList={todoList} setTodoList={setTodoList} />
             
-
+            <Footer />
 
 
         </div>
