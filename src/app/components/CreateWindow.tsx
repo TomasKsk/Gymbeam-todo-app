@@ -4,12 +4,16 @@ import { todayDate } from '../utils/date-functions';
 import { createTodo, fetchTodos } from '../utils/api';
 
 interface Props {
+    page: string;
+    list: string[];
     createWin: boolean;
     setTodoList: React.Dispatch<React.SetStateAction<Todo[]>>;
     setCreateWin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CreateWindow: React.FC<Props> = ({ setTodoList, createWin, setCreateWin }) => {
+const CreateWindow: React.FC<Props> = ({ page, list, setTodoList, createWin, setCreateWin }) => {
+    const [pageMenu, setPageMenu] = useState<boolean>(false)
+
     const [createForm, setCreateForm] = useState<Todo>({
         text: '',
         complete: false,
@@ -18,6 +22,7 @@ const CreateWindow: React.FC<Props> = ({ setTodoList, createWin, setCreateWin })
         tags: [],
         createdate: todayDate(),
         checkdate: '',
+        list: page,
         id: ''
     })
 
@@ -29,8 +34,27 @@ const CreateWindow: React.FC<Props> = ({ setTodoList, createWin, setCreateWin })
         setCreateForm(prev => ({
             ...prev,
             [key]: e.target.value
-        }));
+        }));    
     };
+
+    const handleList = (key: string, e: React.ChangeEvent<HTMLInputElement> | string) => {
+        if (typeof e === 'string') {
+            setCreateForm(prev => ({
+                ...prev,
+                [key]: e
+            }));    
+        } else {
+            setCreateForm(prev => ({
+                ...prev,
+                [key]: e.target.value.toLowerCase()
+            }));
+        }
+    };
+
+    const handleListChange = (key: string, value: string) => {
+        handleList(key, value);
+        setPageMenu(false)
+    }
 
     const handleCheckBox = (key: keyof Todo) => {
         setCreateForm(prev => ({
@@ -67,12 +91,13 @@ const CreateWindow: React.FC<Props> = ({ setTodoList, createWin, setCreateWin })
     const handleNewTodo = async () => {
         await createTodo(createForm);
         const updatedTodos = await fetchTodos();
-        setTodoList(updatedTodos);
+        setTodoList(updatedTodos.filter(a => a.list === page));
     };
 
-    const handleSave = (id: string) => {
+    const handleSave = () => {
         handleNewTodo();
         handleClose();
+            
         setCreateForm(prev => ({
             ...prev,
             text: '',
@@ -80,6 +105,7 @@ const CreateWindow: React.FC<Props> = ({ setTodoList, createWin, setCreateWin })
             priority: false,
             tags: [],
             checkdate: '',
+            list: '',
             id: ''
         }));
     }
@@ -159,12 +185,46 @@ const CreateWindow: React.FC<Props> = ({ setTodoList, createWin, setCreateWin })
                                     className="w-full flex px-3 py-2 rounded-md bg-gray-100 drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
                                 />
                             </div>
-                            
-                            <div className="invisible px-6 py-2 rounded-md bottom-4 bg-gray-300">
-                                Save Changes
-                            </div>
 
-                            <button onClick={() => handleSave(createForm.id)} className="absolute px-6 py-2 rounded-md bottom-4 bg-white shadow-lg drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+                            <div className="flex flex-row w-full items-center justify-around text-md gap-2">
+                                <label htmlFor="list">
+                                    List
+                                </label>
+                                <input 
+                                    id="list"
+                                    type="text"
+                                    placeholder={`eg. ${page}`}
+                                    value={createForm.list}
+                                    onChange={(e) => handleList('list', e)}
+                                    onKeyDown={handleKeyDown}
+                                    className="w-full flex px-3 py-2 rounded-md bg-gray-100 text-xl drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
+                                />
+
+                                <div className="relative">
+                                    <button style={{transform: pageMenu ? 'rotate(0deg)' : 'rotate(90deg'}} className="" onClick={() => setPageMenu(prev => !prev)}>
+                                        v
+                                    </button>
+
+                                    <div style={{maxHeight: pageMenu ? '100px' : '0px', border: ` ${pageMenu ? '1px solid rgba(0,0,0,0.8)' : '0px solid rgba(0,0,0,0)'}`}} 
+                                        className="overflow-scroll duration-300 absolute right-0 px-4 bg-gray-100"
+                                    >
+                                        <ul>
+                                            {
+                                                list.map((obj,idx) => {
+                                                    return(
+                                                        <li onClick={() => handleListChange('list', obj)} key={`list-selection-${idx}`}>
+                                                            {obj}
+                                                        </li>
+                                                    )
+                                                })
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                            
+                            <button onClick={handleSave} className="absolute px-6 py-2 rounded-md bottom-4 bg-white shadow-lg drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                                 Create Todo Item
                             </button>
                         </div>

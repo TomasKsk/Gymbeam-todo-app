@@ -7,19 +7,16 @@ interface Editing {
     id: string
 }
 
-interface Editing {
-    win: boolean,
-    id: string
-}
-
 interface Props {
-    todo?: Todo,
-    editingTodo: Editing,
-    setEditingTodo: React.Dispatch<React.SetStateAction<Editing>>
+    list: string[];
+    todo?: Todo;
+    editingTodo: Editing;
+    setEditingTodo: React.Dispatch<React.SetStateAction<Editing>>;
     setTodoList: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
-const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditingTodo }) => {
+const EditWindow: React.FC<Props> = ({ list, todo, setTodoList, editingTodo, setEditingTodo }) => {
+    const [pageMenu, setPageMenu] = useState<boolean>(false)
     const [form, setForm] = useState<Todo>({
         text: '',
         complete: false,
@@ -28,6 +25,7 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
         tags: [],
         createdate: '',
         checkdate: '',
+        list: '',
         id: ''
     });
 
@@ -36,6 +34,10 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
             setForm(todo);
         }
     }, [todo]);
+
+    useEffect(() => {
+        console.log(form)
+    },[form])
 
     const handleClose = () => {
         setEditingTodo({
@@ -89,9 +91,8 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
             const updatedTodo = await updateTodo(id, fields);
             setTodoList((prevTodos) => prevTodos.map((todo) => (todo.id === id ? updatedTodo : todo)));
 
-            fetchTodos()
-                .then(data => setTodoList(data))
-                .catch(error => console.error('Failed to fetch todos', error));
+            const fetchedTodos = await fetchTodos();
+            setTodoList(fetchedTodos);
                 
         } catch(error) {
             console.error(`Failed to update todo id: ${id}: `, error);
@@ -104,7 +105,14 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
     }
 
     return (
-        <div style={{height: !editingTodo.win ? '0px' : '500px', transitionProperty: 'height, opacity', visibility: !editingTodo.win ? 'hidden' : 'visible'}} className="overflow-hidden duration-300 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] bg-gray-300 rounded-xl shadow-xl outline outline-1 border-4 border-gray-300 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]">
+        <div
+            style={{
+                height: !editingTodo.win ? '0px' : '500px',
+                transitionProperty: 'height, opacity',
+                visibility: !editingTodo.win ? 'hidden' : 'visible'
+            }}
+            className="overflow-hidden duration-300 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] bg-gray-300 rounded-xl shadow-xl outline outline-1 border-4 border-gray-300 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]"
+        >
             <div className="flex flex-row w-full items-center justify-between text-gray-100 outline outline-5 outline-gray-900 bg-gray-900 rounded-t-lg">
                 <h2 className="flex flex-col text-lg font-semibold items-center flex-grow py-2 px-4">
                     Edit your todo
@@ -114,8 +122,8 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
                 </button>
             </div>
 
-            <div className="flex flex-col">
-                {/* {todo ? todo.id : 'Loading...'} */}
+            <div className="flex flex-col p-4">
+                {form.text}
                 {
                     form ?
                         <div className="flex flex-col gap-8 items-center">
@@ -156,7 +164,7 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
                                     id="dueDate"
                                     type="date"
                                     value={form.duedate}
-                                    onChange={(e) => handleChange('duedate',e)}
+                                    onChange={(e) => handleChange('duedate', e)}
                                     className="drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)] px-2 py-1 rounded-md"
                                 />
                             </div>
@@ -168,12 +176,34 @@ const EditWindow: React.FC<Props> = ({ todo, setTodoList, editingTodo, setEditin
                                 <input
                                     id="tagsArray"
                                     type="text"
-                                    value={form.tags}
+                                    value={form.tags.join(', ')}
                                     onChange={(e) => handleTags(e.target.value)}
                                     onBlur={handleTagsSplitting}
                                     onKeyDown={handleKeyDown}
                                     className="w-full flex px-3 py-2 rounded-md bg-gray-100 drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
                                 />
+                            </div>
+
+                            <div className="relative">
+                                <button style={{transform: pageMenu ? 'rotate(0deg)' : 'rotate(90deg'}} className="" onClick={() => setPageMenu(prev => !prev)}>
+                                    v
+                                </button>
+
+                                <div style={{maxHeight: pageMenu ? '100px' : '0px', border: ` ${pageMenu ? '1px solid rgba(0,0,0,0.8)' : '0px solid rgba(0,0,0,0)'}`}} 
+                                    className="overflow-scroll duration-300 absolute right-0 px-4 bg-gray-100"
+                                >
+                                    <ul>
+                                        {
+                                            list.map((obj,idx) => {
+                                                return(
+                                                    <li onClick={() => handleListChange('list', obj)} key={`list-selection-${idx}`}>
+                                                        {obj}
+                                                    </li>
+                                                )
+                                            })
+                                        }
+                                    </ul>
+                                </div>
                             </div>
                             
                             <div className="invisible px-6 py-2 rounded-md bottom-4 bg-gray-300">

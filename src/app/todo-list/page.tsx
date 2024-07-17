@@ -21,10 +21,12 @@ export default function Page() {
     }, []);
 
     return (
-        <div className='flex flex-col'>
+        <div className='flex flex-col overflow-hidden'>
             
-            <Header />
 
+            <Header page={'main'} todoList={todoList} />
+
+            <div className='h-[84px]'></div>
             <Body todoList={todoList} setTodoList={setTodoList} />
             
             <Footer setCreateWin={setCreateWin} />

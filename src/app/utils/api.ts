@@ -38,8 +38,6 @@ export const fetchTodos = async (): Promise<Todo[]> => {
 export const fetchTodosV2 = async (list: string): Promise<Todo[]> => {
     const url = new URL(API_URL);
     url.searchParams.append('list', list);
-    url.searchParams.append('order', 'desc')
-    console.log(url)
   
     const response = await fetch(url.toString(), {
       method: 'GET',

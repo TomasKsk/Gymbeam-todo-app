@@ -78,14 +78,16 @@ const TodoItem: React.FC<Props> = ({ todo, setTodoList, setEditingTodo }) => {
                     Created: {convertDate(todo.createdate)}
                 </p>
             </div>
+
             <div className="flex flex-row justify-between p-2">
+
+                {/* checkbox */}
                 <div className="m-auto">
                     <input className="size-[30px]" 
                         type="checkbox" 
                         checked={todo.complete}
                         onChange={() => handleUpdate(todo.id, {complete: !todo.complete, checkdate: todayDate()})}
                     />
-
                 </div>
 
                 {/* todo text */}
@@ -93,6 +95,7 @@ const TodoItem: React.FC<Props> = ({ todo, setTodoList, setEditingTodo }) => {
                     <h1 style={{}} className="text-lg font-bold">{todo.text}</h1>
                 </div>
 
+                {/* delete and edit buttons */}
                 <div className="flex flex-row items-center gap-2">
                     <div onClick={() => handleEdit(todo.id)} className="cursor-pointer">
                         edit

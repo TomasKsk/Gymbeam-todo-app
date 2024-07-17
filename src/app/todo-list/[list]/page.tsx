@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react';
-import { fetchTodosV2 } from '../../utils/api';
+import { fetchTodos } from '../../utils/api';
 import { Todo } from "../../types/todo";
 
 import Header from '../../components/Header';
@@ -15,29 +15,37 @@ interface Props {
 }
 
 const Page:React.FC<Props> = ({ params }) => {
-    const list = params.list
+    const page = params.list
 
     const [todoList, setTodoList] = useState<Todo[]>([]);
     const [createWin, setCreateWin] = useState<boolean>(false);
+    const [list, setList] = useState<string[]>([]);
 
-    
-    // load the todo data from MockApi on page load using the useEffect hook
     useEffect(() => {
-        fetchTodosV2(list)
-            .then(data => setTodoList(data))
+        fetchTodos()
+            .then(data => {
+                setTodoList(data.filter(a => a.list === page))
+                setList(Array.from(new Set(data.map(a => a.list))))
+                console.log('fetched')
+            })
             .catch(error => console.error('Failed to fetch todos', error));
     }, []);
 
-    return (
-        <div className='flex flex-col'>
-            
-            <Header />
+    
+    // load the todo data from MockApi on page load using the useEffect hook
 
-            <Body todoList={todoList} setTodoList={setTodoList} />
+
+    return (
+        <div className='flex flex-col overflow-hidden'>
+            
+            <Header page={page} list={list} />
+
+            <div className='h-[84px]'></div>
+            <Body list={list} todoList={todoList} setTodoList={setTodoList} />
             
             <Footer setCreateWin={setCreateWin} />
 
-            <CreateWindow createWin={createWin} setTodoList={setTodoList} setCreateWin={setCreateWin}/>
+            <CreateWindow page={page} list={list} createWin={createWin} setTodoList={setTodoList} setCreateWin={setCreateWin}/>
 
         </div>
     )
