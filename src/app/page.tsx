@@ -9,7 +9,7 @@ where the user can choose to go to the todos section or statistics - thats ofcou
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Link href="/todo-list">
+      <Link href="/todo-list/main">
         <button className="px-3 py-5 rounded-xl cursor-pointer bg-white">
           Enter your todoList
         </button>

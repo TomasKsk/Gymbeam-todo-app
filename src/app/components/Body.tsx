@@ -45,8 +45,8 @@ const Body: React.FC<Props> = ({ selectSwitch, setSelectSwitch, list, setList, p
     return (
         <div className="flex flex-col h-[82vh] pb-[84px] overflow-y-scroll gap-4 p-4">
             {
-                todoList.map(obj => (
-                    <span onClick={() => handleItem(obj)}>
+                todoList.map((obj, idx) => (
+                    <span key={`todo-item-${idx}`} onClick={() => handleItem(obj)}>
                         <TodoItem
                             selectSwitch={selectSwitch}
                             key={obj.id}

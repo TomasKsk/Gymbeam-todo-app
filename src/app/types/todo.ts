@@ -13,5 +13,7 @@ export interface Todo {
 export interface SelectSwitch {
     multi: boolean;
     all: boolean;
+    del: boolean;
+    edit: boolean;
     multiSelectItems: string[];
 }
