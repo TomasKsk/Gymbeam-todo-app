@@ -84,7 +84,7 @@ const Page: React.FC<Props> = ({ params }) => {
     }, [selectSwitch.all, selectSwitch.multi, todoList, list, page, router]);
 
     return (
-        <div className='flex flex-col overflow-hidden'>
+        <div className='flex flex-col'>
             <Header page={page} list={list} />
             <div className='h-[84px]'></div>
             <Body selectSwitch={selectSwitch} setSelectSwitch={setSelectSwitch} setList={setList} list={list} page={page} todoList={todoList} setTodoList={setTodoList} />

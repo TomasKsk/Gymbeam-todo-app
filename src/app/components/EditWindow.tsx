@@ -138,7 +138,7 @@ const EditWindow: React.FC<Props> = ({ list, setList, todo, page, setTodoList, e
                 transitionProperty: 'height, opacity',
                 visibility: !editingTodo.win ? 'hidden' : 'visible'
             }}
-            className="overflow-hidden duration-300 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] bg-gray-300 rounded-xl shadow-xl outline outline-1 border-4 border-gray-300 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]"
+            className="overflow-hidden duration-300 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:max-w-[600px] w-[95%] bg-gray-300 rounded-xl shadow-xl outline outline-1 border-4 border-gray-300 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]"
         >
             <div className="flex flex-row w-full items-center justify-between text-gray-100 outline outline-5 outline-gray-900 bg-gray-900 rounded-t-lg">
                 <h2 className="flex flex-col text-lg font-semibold items-center flex-grow py-2 px-4">

@@ -87,9 +87,8 @@ const TodoItem: React.FC<Props> = ({ selectSwitch, todo, page, listLength, setTo
                 filter: todo.complete ? '' : 'drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1)) drop-shadow(0 1.2px 1.2px rgb(0 0 0 / 0.8))',
                 outline: selectCondition ? '6px solid rgb(107 114 128)' : ''
             }} 
-            className="flex flex-col w-full p-2 rounded-md"
+            className="flex flex-col sm:justify-between w-full p-2 rounded-md"
         >
-            <div className="text-gray-500"></div>
             <div className="flex flex-row justify-between text-sm">
                 <p>
                     Due: {convertDate(todo.duedate)}
@@ -103,7 +102,7 @@ const TodoItem: React.FC<Props> = ({ selectSwitch, todo, page, listLength, setTo
 
                 {/* checkbox */}
                 <div className="m-auto">
-                    <input className="size-[30px]" 
+                    <input className="size-[30px] cursor-pointer" 
                         type="checkbox" 
                         checked={todo.complete}
                         onChange={() => handleUpdate(todo.id, {complete: !todo.complete, checkdate: todayDate()})}
@@ -111,7 +110,7 @@ const TodoItem: React.FC<Props> = ({ selectSwitch, todo, page, listLength, setTo
                 </div>
 
                 {/* todo text */}
-                <div style={{textDecorationLine: todo.complete ? 'line-through' : 'none'}} className="line-through flex flex-grow items-center justify-center p-2">
+                <div style={{textDecorationLine: todo.complete ? 'line-through' : 'none'}} className="line-through flex flex-grow items-center justify-center px-4 p-2">
                     <h1 onClick={() => handleEdit(todo.id)} style={{}} className="text-lg font-bold">{todo.text}</h1>
                 </div>
 
