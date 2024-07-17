@@ -9,3 +9,9 @@ export interface Todo {
     id: string;
     list: string;
 }
+
+export interface SelectSwitch {
+    multi: boolean;
+    all: boolean;
+    multiSelectItems: string[];
+}

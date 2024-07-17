@@ -31,15 +31,16 @@ const Header: React.FC<Props> = ({ page, list }) => {
                 {
                     list.length > 1 ?
                         <>
-                            <div>
-                                {page.toUpperCase()}
-                            </div>
+                            <label htmlFor="list-menu">
+                                {page.slice(0,1).toUpperCase() + page.slice(1)}
+                            </label>
+
                             <div className="relative">
-                                <button style={{transform: pageMenu ? 'rotate(0deg)' : 'rotate(90deg'}} className="" onClick={() => setPageMenu(prev => !prev)}>
+                                <button id="list-menu" style={{transform: pageMenu ? 'rotate(0deg)' : 'rotate(90deg'}} className="" onClick={() => setPageMenu(prev => !prev)}>
                                     v
                                 </button>
 
-                                <div style={{maxHeight: pageMenu ? '100px' : '0px', border: `1px solid ${pageMenu ? 'rgba(0,0,0,0.8)' : 'rgba(0,0,0,0)'}`}} className="overflow-hidden duration-300 absolute px-4 bg-gray-100">
+                                <div style={{maxHeight: pageMenu ? '200px' : '0px',  border: ` ${pageMenu ? '1px solid rgba(0,0,0,0.8)' : '0px solid rgba(0,0,0,0)'}`}} className="overflow-y-scroll duration-300 right-0 absolute px-4 bg-gray-100">
                                     <ul>
                                         {
                                             list.map((obj,idx) => {
@@ -58,7 +59,7 @@ const Header: React.FC<Props> = ({ page, list }) => {
                         </>
                     :
                         <>
-                            {list && list[0]?.toUpperCase()}
+                            {list.length > 0 && list[0].slice(0,1).toUpperCase() + list[0].slice(1)}
                         </>
                 }
             </span>

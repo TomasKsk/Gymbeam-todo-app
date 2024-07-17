@@ -9,13 +9,15 @@ interface Editing {
 
 interface Props {
     list: string[];
+    setList: React.Dispatch<React.SetStateAction<string[]>>
     todo?: Todo;
+    page: string;
     editingTodo: Editing;
     setEditingTodo: React.Dispatch<React.SetStateAction<Editing>>;
     setTodoList: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
-const EditWindow: React.FC<Props> = ({ list, todo, setTodoList, editingTodo, setEditingTodo }) => {
+const EditWindow: React.FC<Props> = ({ list, setList, todo, page, setTodoList, editingTodo, setEditingTodo }) => {
     const [pageMenu, setPageMenu] = useState<boolean>(false)
     const [form, setForm] = useState<Todo>({
         text: '',
@@ -92,7 +94,8 @@ const EditWindow: React.FC<Props> = ({ list, todo, setTodoList, editingTodo, set
             setTodoList((prevTodos) => prevTodos.map((todo) => (todo.id === id ? updatedTodo : todo)));
 
             const fetchedTodos = await fetchTodos();
-            setTodoList(fetchedTodos);
+            setList(Array.from(new Set(fetchedTodos.map(a => a.list))));
+            setTodoList(fetchedTodos.filter(a => a.list === page));
                 
         } catch(error) {
             console.error(`Failed to update todo id: ${id}: `, error);
@@ -100,14 +103,38 @@ const EditWindow: React.FC<Props> = ({ list, todo, setTodoList, editingTodo, set
     }
 
     const handleSave = (id: string) => {
+        if (form.text.length === 0 || form.list.length === 0) {
+            alert('you cant have a todo item with no text')
+            return
+        }
+        
         handleUpdate(id, form);
         handleClose();
+    }
+
+    const handleList = (key: string, e: React.ChangeEvent<HTMLInputElement> | string) => {
+        if (typeof e === 'string') {
+            setForm(prev => ({
+                ...prev,
+                [key]: e
+            }));    
+        } else {
+            setForm(prev => ({
+                ...prev,
+                [key]: e.target.value.toLowerCase().replace(/[^a-z]+/i, '')
+            }));
+        }
+    };
+
+    const handleListChange = (key: string, value: string) => {
+        handleList(key, value);
+        setPageMenu(false)
     }
 
     return (
         <div
             style={{
-                height: !editingTodo.win ? '0px' : '500px',
+                height: !editingTodo.win ? '0px' : '540px',
                 transitionProperty: 'height, opacity',
                 visibility: !editingTodo.win ? 'hidden' : 'visible'
             }}
@@ -123,7 +150,6 @@ const EditWindow: React.FC<Props> = ({ list, todo, setTodoList, editingTodo, set
             </div>
 
             <div className="flex flex-col p-4">
-                {form.text}
                 {
                     form ?
                         <div className="flex flex-col gap-8 items-center">
@@ -184,26 +210,42 @@ const EditWindow: React.FC<Props> = ({ list, todo, setTodoList, editingTodo, set
                                 />
                             </div>
 
-                            <div className="relative">
-                                <button style={{transform: pageMenu ? 'rotate(0deg)' : 'rotate(90deg'}} className="" onClick={() => setPageMenu(prev => !prev)}>
-                                    v
-                                </button>
+                            {/* list input */}
+                            <div className="flex flex-row w-full items-center justify-around text-md gap-2">
+                                <label htmlFor="list">
+                                    List
+                                </label>
+                                <input 
+                                    id="list"
+                                    type="text"
+                                    value={form.list}
+                                    onChange={(e) => handleList('list', e)}
+                                    onKeyDown={handleKeyDown}
+                                    className="w-full flex px-3 py-2 rounded-md bg-gray-100 text-xl drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
+                                />
 
-                                <div style={{maxHeight: pageMenu ? '100px' : '0px', border: ` ${pageMenu ? '1px solid rgba(0,0,0,0.8)' : '0px solid rgba(0,0,0,0)'}`}} 
-                                    className="overflow-scroll duration-300 absolute right-0 px-4 bg-gray-100"
-                                >
-                                    <ul>
-                                        {
-                                            list.map((obj,idx) => {
-                                                return(
-                                                    <li onClick={() => handleListChange('list', obj)} key={`list-selection-${idx}`}>
-                                                        {obj}
-                                                    </li>
-                                                )
-                                            })
-                                        }
-                                    </ul>
+                                <div className="relative">
+                                    <button style={{transform: pageMenu ? 'rotate(0deg)' : 'rotate(90deg'}} className="" onClick={() => setPageMenu(prev => !prev)}>
+                                        v
+                                    </button>
+
+                                    <div style={{maxHeight: pageMenu ? '100px' : '0px', border: ` ${pageMenu ? '1px solid rgba(0,0,0,0.8)' : '0px solid rgba(0,0,0,0)'}`}} 
+                                        className="overflow-scroll duration-300 absolute z-10 right-0 px-4 bg-gray-100 shadow-md drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"
+                                    >
+                                        <ul>
+                                            {
+                                                list.map((obj,idx) => {
+                                                    return(
+                                                        <li onClick={() => handleListChange('list', obj)} key={`list-selection-${idx}`}>
+                                                            {obj}
+                                                        </li>
+                                                    )
+                                                })
+                                            }
+                                        </ul>
+                                    </div>
                                 </div>
+
                             </div>
                             
                             <div className="invisible px-6 py-2 rounded-md bottom-4 bg-gray-300">

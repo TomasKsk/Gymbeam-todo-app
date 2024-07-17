@@ -1,6 +1,8 @@
-import { Todo } from "../types/todo"
+import { useRouter } from "next/navigation";
+import { SelectSwitch, Todo } from "../types/todo"
 import { deleteTodo, fetchTodos, updateTodo } from '../utils/api';
 import { todayDate } from "../utils/date-functions";
+import { useState } from "react";
 
 interface Editing {
     win: boolean,
@@ -8,7 +10,10 @@ interface Editing {
 }
 
 interface Props {
+    selectSwitch: SelectSwitch;
     todo: Todo,
+    page: string;
+    listLength: number;
     setTodoList: React.Dispatch<React.SetStateAction<Todo[]>>;
     setEditingTodo: React.Dispatch<React.SetStateAction<Editing>>;
 }
@@ -26,16 +31,23 @@ const convertDate = (dateString: string) => {
     return `${day}/${month}/${shortYear}`;
 }
 
-const TodoItem: React.FC<Props> = ({ todo, setTodoList, setEditingTodo }) => {
+const TodoItem: React.FC<Props> = ({ selectSwitch, todo, page, listLength, setTodoList, setEditingTodo }) => {
+    const router = useRouter();
     
+    const fetchData = () => {
+        fetchTodos()
+        .then(data => {
+            setTodoList(data.filter(a => a.list === page))
+        })
+        .catch(error => console.error('Failed to fetch todos', error));
+    }
+
     const handleUpdate = async(id: string, fields: Partial<Todo>) => {
         try {
             const updatedTodo = await updateTodo(id, fields);
             setTodoList((prevTodos) => prevTodos.map((todo) => (todo.id === id ? updatedTodo : todo)));
 
-            fetchTodos()
-                .then(data => setTodoList(data))
-                .catch(error => console.error('Failed to fetch todos', error));
+            fetchData();
                 
         } catch(error) {
             console.error(`Failed to update todo id: ${id}: `, error);
@@ -47,7 +59,10 @@ const TodoItem: React.FC<Props> = ({ todo, setTodoList, setEditingTodo }) => {
         if (result) {
             try {
                 await deleteTodo(id);
-                setTodoList(prev => prev.filter(todo => todo.id !== id));
+                if (listLength === 1) {
+                    router.push('main')
+                }
+                fetchData();
             } catch(error) {
                 console.error(`Failed to update todo id: ${id}: `, error);
             };
@@ -61,15 +76,20 @@ const TodoItem: React.FC<Props> = ({ todo, setTodoList, setEditingTodo }) => {
         });
     };
 
+    const selectAllCondition = selectSwitch.all
+    const selectCondition = selectSwitch.multi && selectSwitch.multiSelectItems.includes(todo.id) || selectAllCondition
+
     return (
         <div 
             style={{
                 backgroundColor: !todo.priority ? `${todo.complete ? 'rgb(229 231 235)' : 'rgb(243 244 246)'}` : `${todo.complete ? 'rgb(254 240 138)' : 'rgb(250 204 21)'}`,
                 color: todo.complete ? 'rgb(156 163 175)' : '',
-                filter: todo.complete ? '' : 'drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1)) drop-shadow(0 1.2px 1.2px rgb(0 0 0 / 0.8))'
+                filter: todo.complete ? '' : 'drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1)) drop-shadow(0 1.2px 1.2px rgb(0 0 0 / 0.8))',
+                outline: selectCondition ? '6px solid rgb(107 114 128)' : ''
             }} 
             className="flex flex-col w-full p-2 rounded-md"
         >
+            <div className="text-gray-500"></div>
             <div className="flex flex-row justify-between text-sm">
                 <p>
                     Due: {convertDate(todo.duedate)}
@@ -91,8 +111,8 @@ const TodoItem: React.FC<Props> = ({ todo, setTodoList, setEditingTodo }) => {
                 </div>
 
                 {/* todo text */}
-                <div onClick={() => handleEdit(todo.id)} style={{textDecorationLine: todo.complete ? 'line-through' : 'none'}} className="line-through flex flex-grow items-center justify-center p-2">
-                    <h1 style={{}} className="text-lg font-bold">{todo.text}</h1>
+                <div style={{textDecorationLine: todo.complete ? 'line-through' : 'none'}} className="line-through flex flex-grow items-center justify-center p-2">
+                    <h1 onClick={() => handleEdit(todo.id)} style={{}} className="text-lg font-bold">{todo.text}</h1>
                 </div>
 
                 {/* delete and edit buttons */}

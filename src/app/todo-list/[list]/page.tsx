@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { fetchTodos } from '../../utils/api';
-import { Todo } from "../../types/todo";
+import { SelectSwitch, Todo } from "../../types/todo";
 
 import Header from '../../components/Header';
 import Body from '../../components/Body';
@@ -20,6 +20,11 @@ const Page:React.FC<Props> = ({ params }) => {
     const [todoList, setTodoList] = useState<Todo[]>([]);
     const [createWin, setCreateWin] = useState<boolean>(false);
     const [list, setList] = useState<string[]>([]);
+    const [selectSwitch, setSelectSwitch] = useState<SelectSwitch>({
+        multi: false,
+        all: false,
+        multiSelectItems: []
+    });
 
     useEffect(() => {
         fetchTodos()
@@ -31,6 +36,19 @@ const Page:React.FC<Props> = ({ params }) => {
             .catch(error => console.error('Failed to fetch todos', error));
     }, []);
 
+    useEffect(() => {
+
+
+        if (selectSwitch.all && selectSwitch.multi) {
+            setSelectSwitch(prev => ({
+                ...prev,
+                multi: false,
+                all: true,
+                multiSelectItems: todoList.map(a => a.id)
+            }));   
+        }
+    }, [])
+
     
     // load the todo data from MockApi on page load using the useEffect hook
 
@@ -41,11 +59,11 @@ const Page:React.FC<Props> = ({ params }) => {
             <Header page={page} list={list} />
 
             <div className='h-[84px]'></div>
-            <Body list={list} todoList={todoList} setTodoList={setTodoList} />
+            <Body selectSwitch={selectSwitch} setSelectSwitch={setSelectSwitch} setList={setList} list={list} page={page} todoList={todoList} setTodoList={setTodoList} />
             
-            <Footer setCreateWin={setCreateWin} />
+            <Footer selectSwitch={selectSwitch} setSelectSwitch={setSelectSwitch} setCreateWin={setCreateWin} />
 
-            <CreateWindow page={page} list={list} createWin={createWin} setTodoList={setTodoList} setCreateWin={setCreateWin}/>
+            <CreateWindow page={page} list={list} setList={setList} createWin={createWin} setTodoList={setTodoList} setCreateWin={setCreateWin}/>
 
         </div>
     )

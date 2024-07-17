@@ -6,12 +6,13 @@ import { createTodo, fetchTodos } from '../utils/api';
 interface Props {
     page: string;
     list: string[];
+    setList: React.Dispatch<React.SetStateAction<string[]>>;
     createWin: boolean;
     setTodoList: React.Dispatch<React.SetStateAction<Todo[]>>;
     setCreateWin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CreateWindow: React.FC<Props> = ({ page, list, setTodoList, createWin, setCreateWin }) => {
+const CreateWindow: React.FC<Props> = ({ page, list, setList, setTodoList, createWin, setCreateWin }) => {
     const [pageMenu, setPageMenu] = useState<boolean>(false)
 
     const [createForm, setCreateForm] = useState<Todo>({
@@ -25,6 +26,7 @@ const CreateWindow: React.FC<Props> = ({ page, list, setTodoList, createWin, set
         list: page,
         id: ''
     })
+    
 
     const handleClose = () => {
         setCreateWin(false)
@@ -46,7 +48,7 @@ const CreateWindow: React.FC<Props> = ({ page, list, setTodoList, createWin, set
         } else {
             setCreateForm(prev => ({
                 ...prev,
-                [key]: e.target.value.toLowerCase()
+                [key]: e.target.value.toLowerCase().replace(/[^a-z]+/i, '')
             }));
         }
     };
@@ -91,10 +93,16 @@ const CreateWindow: React.FC<Props> = ({ page, list, setTodoList, createWin, set
     const handleNewTodo = async () => {
         await createTodo(createForm);
         const updatedTodos = await fetchTodos();
+        setList(Array.from(new Set(updatedTodos.map(a => a.list))))
         setTodoList(updatedTodos.filter(a => a.list === page));
     };
 
     const handleSave = () => {
+        if (createForm.text.length === 0) {
+            alert('you cant have a todo item with no text')
+            return
+        }
+        
         handleNewTodo();
         handleClose();
             
@@ -105,10 +113,10 @@ const CreateWindow: React.FC<Props> = ({ page, list, setTodoList, createWin, set
             priority: false,
             tags: [],
             checkdate: '',
-            list: '',
+            list: page,
             id: ''
         }));
-    }
+    };
 
     return (
         <div style={{height: !createWin ? '0px' : '500px', transitionProperty: 'height, opacity', visibility: !createWin ? 'hidden' : 'visible'}} className="duration-300 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] bg-gray-300 rounded-xl shadow-xl outline outline-1 border-4 border-gray-300 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]">
@@ -206,7 +214,7 @@ const CreateWindow: React.FC<Props> = ({ page, list, setTodoList, createWin, set
                                     </button>
 
                                     <div style={{maxHeight: pageMenu ? '100px' : '0px', border: ` ${pageMenu ? '1px solid rgba(0,0,0,0.8)' : '0px solid rgba(0,0,0,0)'}`}} 
-                                        className="overflow-scroll duration-300 absolute right-0 px-4 bg-gray-100"
+                                        className="overflow-scroll duration-300 absolute z-10 right-0 px-4 bg-gray-100 shadow-md drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"
                                     >
                                         <ul>
                                             {
