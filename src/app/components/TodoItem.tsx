@@ -82,12 +82,12 @@ const TodoItem: React.FC<Props> = ({ selectSwitch, todo, page, listLength, setTo
     return (
         <div 
             style={{
-                backgroundColor: !todo.priority ? `${todo.complete ? 'rgb(229 231 235)' : 'rgb(243 244 246)'}` : `${todo.complete ? 'rgb(254 240 138)' : 'rgb(250 204 21)'}`,
+                // backgroundColor: !todo.priority ? `${todo.complete ? 'rgb(229 231 235)' : 'rgb(243 244 246)'}` : `${todo.complete ? 'rgb(254 240 138)' : 'rgb(250 204 21)'}`,
                 color: todo.complete ? 'rgb(156 163 175)' : '',
                 filter: todo.complete ? '' : 'drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1)) drop-shadow(0 1.2px 1.2px rgb(0 0 0 / 0.8))',
                 outline: selectCondition ? '6px solid rgb(107 114 128)' : ''
             }} 
-            className="flex flex-col sm:justify-between w-full p-2 rounded-md"
+            className={`flex flex-col sm:justify-between w-full p-2 rounded-md ${!todo.priority ? `${todo.complete ? 'bg-gray-200 dark:bg-gray-600' : 'dark:text-gray-400 bg-gray-100 dark:bg-gray-800'} ` : 'bg-yellow-400 dark:bg-yellow-500'}`}
         >
             <div className="flex flex-row justify-between text-sm">
                 <p>
@@ -102,7 +102,7 @@ const TodoItem: React.FC<Props> = ({ selectSwitch, todo, page, listLength, setTo
 
                 {/* checkbox */}
                 <div className="m-auto">
-                    <input className="size-[30px] cursor-pointer" 
+                    <input className="size-[30px] dark:bg-gray-600 cursor-pointer accent-gray-600" 
                         type="checkbox" 
                         checked={todo.complete}
                         onChange={() => handleUpdate(todo.id, {complete: !todo.complete, checkdate: todayDate()})}

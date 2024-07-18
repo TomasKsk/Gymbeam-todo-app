@@ -57,12 +57,12 @@ const Body: React.FC<Props> = ({ selectSwitch, setSelectSwitch, list, setList, p
 
     return (
         <div className="w-full flex flex-row md:justify-between">
-            <div className="max-[768px]:hidden w-[300px] flex flex-col bg-white text-2xl pt-10">
+            <div className="max-[768px]:hidden w-[300px] flex flex-col dark:bg-gray-700 dark:text-gray-100 bg-white text-2xl pt-10">
                 <ul className="flex flex-col gap-4">
                     {
                         listbackup.map((obj,idx) => {
                             return(
-                                <li style={{backgroundColor: page === obj ? 'rgb(209 213 219)' : ''}} className="pl-4 py-2 rounded-l-md ml-8" key={`todo-list-pc-link-${idx}`}>
+                                <li className={`pl-4 py-2 rounded-l-md ml-8 ${page === obj ? 'dark:bg-gray-600 bg-gray-300' : ''}`} key={`todo-list-pc-link-${idx}`}>
                                     <Link href={obj}>
                                         {obj}
                                     </Link>
@@ -75,7 +75,7 @@ const Body: React.FC<Props> = ({ selectSwitch, setSelectSwitch, list, setList, p
 
             
 
-            <div className="w-full flex flex-col md:max-w-[1400px] md:flex-row md:h-[90vh] md:pb-[20px] h-[82vh] pb-[84px] overflow-y-scroll gap-4 p-4">
+            <div className="w-full flex flex-col md:max-w-[1400px] md:flex-row md:h-[90vh] md:pb-[20px] h-[82vh] pb-[84px] overflow-y-scroll gap-4 p-4 dark:bg-gray-500">
                 <div className="flex flex-row w-full h-fit items-center justify-center flex-wrap gap-4">
                     {
                         todoList.map((obj, idx) => (

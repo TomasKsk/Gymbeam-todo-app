@@ -138,7 +138,7 @@ const EditWindow: React.FC<Props> = ({ list, setList, todo, page, setTodoList, e
                 transitionProperty: 'height, opacity',
                 visibility: !editingTodo.win ? 'hidden' : 'visible'
             }}
-            className="overflow-hidden duration-300 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:max-w-[600px] w-[95%] bg-gray-300 rounded-xl shadow-xl outline outline-1 border-4 border-gray-300 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]"
+            className="overflow-hidden duration-300 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:max-w-[600px] w-[95%] dark:bg-gray-600 bg-gray-300 rounded-xl shadow-xl outline outline-1 border-4 dark:border-gray-600 border-gray-300 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]"
         >
             <div className="flex flex-row w-full items-center justify-between text-gray-100 outline outline-5 outline-gray-900 bg-gray-900 rounded-t-lg">
                 <h2 className="flex flex-col text-lg font-semibold items-center flex-grow py-2 px-4">
@@ -158,14 +158,13 @@ const EditWindow: React.FC<Props> = ({ list, setList, todo, page, setTodoList, e
                                 value={form.text}
                                 onChange={(e) => handleChange('text', e)}
                                 onKeyDown={handleKeyDown}
-                                className="w-full flex px-4 py-3 rounded-md bg-gray-100 text-xl drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
+                                className="w-full flex px-4 py-3 rounded-md dark:text-gray-200 dark:bg-gray-500 bg-gray-100 text-xl drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
                             />
 
                             <div className="flex flex-row w-full items-center justify-around text-xl">
                                 {/* priority checkbox */}
                                 <button 
-                                    style={{backgroundColor: form.priority ? 'rgb(250 204 21)' : 'rgb(243 244 246)'}} 
-                                    className="px-6 py-3 bg-gray-100 rounded-md drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"
+                                    className={`px-6 py-3 bg-gray-100 rounded-md drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] ${!form.priority ? 'dark:bg-gray-500 bg-gray-100' : 'dark:bg-yellow-600 bg-yellow-500'}`}
                                     onClick={() => handleCheckBox('priority')}
                                 >
                                     Priority
@@ -173,8 +172,7 @@ const EditWindow: React.FC<Props> = ({ list, setList, todo, page, setTodoList, e
 
                                 {/* complete checkbox */}
                                 <button 
-                                    style={{backgroundColor: form.complete ? 'rgb(250 204 21)' : 'rgb(243 244 246)'}} 
-                                    className="px-6 py-3 bg-gray-100 rounded-md drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"
+                                    className={`px-6 py-3 bg-gray-100 rounded-md drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] ${!form.complete ? 'dark:bg-gray-500 bg-gray-100' : 'dark:bg-yellow-600 bg-yellow-500'}`}
                                     onClick={() => handleCheckBox('complete')}
                                 >
                                     Complete
@@ -191,7 +189,7 @@ const EditWindow: React.FC<Props> = ({ list, setList, todo, page, setTodoList, e
                                     type="date"
                                     value={form.duedate}
                                     onChange={(e) => handleChange('duedate', e)}
-                                    className="drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)] px-2 py-1 rounded-md"
+                                    className="drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)] dark:text-gray-200 dark:bg-gray-500 px-2 py-1 rounded-md"
                                 />
                             </div>
                             
@@ -206,7 +204,7 @@ const EditWindow: React.FC<Props> = ({ list, setList, todo, page, setTodoList, e
                                     onChange={(e) => handleTags(e.target.value)}
                                     onBlur={handleTagsSplitting}
                                     onKeyDown={handleKeyDown}
-                                    className="w-full flex px-3 py-2 rounded-md bg-gray-100 drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
+                                    className="w-full flex px-3 py-2 rounded-md dark:bg-gray-500 dark:text-gray-200 bg-gray-100 drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
                                 />
                             </div>
 
@@ -221,7 +219,7 @@ const EditWindow: React.FC<Props> = ({ list, setList, todo, page, setTodoList, e
                                     value={form.list}
                                     onChange={(e) => handleList('list', e)}
                                     onKeyDown={handleKeyDown}
-                                    className="w-full flex px-3 py-2 rounded-md bg-gray-100 text-xl drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
+                                    className="w-full flex px-3 py-2 rounded-md dark:bg-gray-500 dark:text-gray-200 bg-gray-100 text-xl drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
                                 />
 
                                 <div className="relative">
@@ -248,11 +246,11 @@ const EditWindow: React.FC<Props> = ({ list, setList, todo, page, setTodoList, e
 
                             </div>
                             
-                            <div className="invisible px-6 py-2 rounded-md bottom-4 bg-gray-300">
+                            <div className="invisible px-6 py-2 rounded-md bottom-4  bg-gray-300">
                                 Save Changes
                             </div>
 
-                            <button onClick={() => handleSave(form.id)} className="absolute px-6 py-2 rounded-md bottom-4 bg-white shadow-lg drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+                            <button onClick={() => handleSave(form.id)} className="absolute px-6 py-2 rounded-md bottom-4 dark:bg-gray-500 dark:text-gray-200 bg-white shadow-lg drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                                 Save Changes
                             </button>
                         </div>

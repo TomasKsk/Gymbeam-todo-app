@@ -59,22 +59,22 @@ const Footer: React.FC<Props> = ({ selectSwitch, setSelectSwitch, setCreateWin, 
     }
 
     return (
-        <div className='fixed z-10 md:top-2 md:max-w-[310px] md:right-0 max-[768px]:bottom-0 max-[768px]:left-0 p-2 flex w-full items-center justify-around max-[768px]:shadow-[0_10px_15px_3px_rgba(0,0,0,0.1),0_4px_6px_4px_rgba(0,0,0,0.1)] md:bg-transparent bg-gray-100 max-[768px]:drop-shadow-[0_-1.5px_1.5px_rgba(0,0,0,0.3)]'>
+        <div className='fixed z-10 md:top-2 md:max-w-[310px] md:right-0 max-[768px]:bottom-0 max-[768px]:left-0 p-2 flex w-full items-center justify-around max-[768px]:shadow-[0_10px_15px_3px_rgba(0,0,0,0.1),0_4px_6px_4px_rgba(0,0,0,0.1)] md:bg-transparent dark:bg-gray-700 bg-gray-100 max-[768px]:drop-shadow-[0_-1.5px_1.5px_rgba(0,0,0,0.3)]'>
             {/* selection tools */}
             <div className='flex flex-row flex-1 items-center justify-around'>
                 <div onClick={handleClick}
-                    style={{backgroundColor: selectSwitch.multi ? 'rgb(250 204 21)' : 'rgb(243 244 246)'}}
-                    className='outline duration-500 outline-gray-500 border-2 border-gray-300 max-[768px]:p-2 shadow-md drop-shadow-[0_2.5px_2.5px_rgba(0,0,0,0.6)] active:bg-yellow-400 cursor-pointer'
+                    // style={{backgroundColor: selectSwitch.multi ? 'rgb(250 204 21)' : 'rgb(243 244 246)'}}
+                    className={`outline duration-500 outline-gray-500 border-2 border-gray-300 max-[768px]:p-2 shadow-md drop-shadow-[0_2.5px_2.5px_rgba(0,0,0,0.6)] active:bg-yellow-400 cursor-pointer ${selectSwitch.multi ? 'dark:bg-yellow-600 bg-yellow-400' : 'dark:bg-gray-500 bg-gray-100'}`}
                 >
-                    <div className='border-2 border-dashed border-gray-500 p-1'>
+                    <div className='border-2 border-dashed dark:border-gray-700 border-gray-500 p-1'>
                         Sel
                     </div>
                 </div>
                 <div onClick={handleClickAll}
-                    style={{backgroundColor: selectSwitch.all ? 'rgb(250 204 21)' : 'rgb(243 244 246)'}}
-                    className='outline outline-gray-500 border-2 border-gray-300 bg-gray-100 max-[768px]:p-2 shadow-md drop-shadow-[0_2.5px_2.5px_rgba(0,0,0,0.6)] cursor-pointer'
+                    // style={{backgroundColor: selectSwitch.all ? 'rgb(250 204 21)' : 'rgb(243 244 246)'}}
+                    className={`outline duration-500 outline-gray-500 border-2 border-gray-300 max-[768px]:p-2 shadow-md drop-shadow-[0_2.5px_2.5px_rgba(0,0,0,0.6)] cursor-pointer ${selectSwitch.all ? 'dark:bg-yellow-600 bg-yellow-400' : 'dark:bg-gray-500 bg-gray-100'}`}
                 >
-                    <div className='border-2 border-dashed border-gray-500 p-1'>
+                    <div className='border-2 border-dashed dark:border-gray-700 border-gray-500 p-1'>
                         All
                     </div>
                 </div>
@@ -87,9 +87,9 @@ const Footer: React.FC<Props> = ({ selectSwitch, setSelectSwitch, setCreateWin, 
             <div className='flex flex-row flex-1 items-center justify-around'>
                 {/* delete multiple items */}
                 <div onClick={handleDeleteSelection}
-                    className='outline outline-gray-500 border-2 border-gray-300 bg-gray-100 max-[768px]:p-2 shadow-md drop-shadow-[0_2.5px_2.5px_rgba(0,0,0,0.6)] cursor-pointer'
+                    className='outline duration-500 outline-gray-500 border-2 border-gray-300 dark:bg-gray-500 bg-gray-100 max-[768px]:p-2 shadow-md drop-shadow-[0_2.5px_2.5px_rgba(0,0,0,0.6)] cursor-pointer'
                 >
-                    <div className='border-2 border-dashed border-gray-500 p-1'>
+                    <div className='border-2 border-dashed dark:border-gray-700 border-gray-500 p-1'>
                         Del
                     </div>
                 </div>

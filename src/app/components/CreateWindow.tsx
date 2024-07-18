@@ -119,7 +119,7 @@ const CreateWindow: React.FC<Props> = ({ page, list, setList, setTodoList, creat
     };
 
     return (
-        <div style={{height: !createWin ? '0px' : '500px', transitionProperty: 'height, opacity', visibility: !createWin ? 'hidden' : 'visible'}} className="duration-300 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:max-w-[600px] w-[95%] bg-gray-300 rounded-xl shadow-xl outline outline-1 border-4 border-gray-300 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]">
+        <div style={{height: !createWin ? '0px' : '500px', transitionProperty: 'height, opacity', visibility: !createWin ? 'hidden' : 'visible'}} className="duration-300 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:max-w-[600px] w-[95%] dark:bg-gray-600 bg-gray-300 rounded-xl shadow-xl outline outline-1 border-4 dark:border-gray-600 border-gray-300 drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]">
             <div className="flex flex-row w-full items-center justify-between text-gray-100 outline outline-5 outline-gray-900 bg-gray-900 rounded-t-lg">
                 <h2 className="flex flex-col text-lg font-semibold items-center flex-grow py-2 px-4">
                     Create a new todo Item
@@ -141,14 +141,14 @@ const CreateWindow: React.FC<Props> = ({ page, list, setList, setTodoList, creat
                                 onChange={(e) => handleChange('text', e)}
                                 onKeyDown={handleKeyDown}
                                 style={{padding: !createWin ? '0' : '0.75rem'}}
-                                className="w-full flex rounded-md bg-gray-100 text-xl drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
+                                className="w-full flex rounded-md dark:text-gray-100 dark:bg-gray-500 bg-gray-100 text-xl drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
                             />
 
                             <div className="flex flex-row w-full items-center justify-around text-xl">
                                 {/* priority checkbox */}
                                 <button 
-                                    style={{backgroundColor: createForm.priority ? 'rgb(250 204 21)' : 'rgb(243 244 246)'}} 
-                                    className="px-6 py-3 bg-gray-100 rounded-md drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"
+                                    // style={{backgroundColor: createForm.priority ? 'rgb(250 204 21)' : 'rgb(243 244 246)'}} 
+                                    className={`px-6 py-3 bg-gray-100 rounded-md drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] ${!createForm.priority ? 'dark:bg-gray-500 bg-gray-100' : 'dark:bg-yellow-600 bg-yellow-500'}`}
                                     onClick={() => handleCheckBox('priority')}
                                 >
                                     Priority
@@ -156,8 +156,9 @@ const CreateWindow: React.FC<Props> = ({ page, list, setList, setTodoList, creat
 
                                 {/* complete checkbox */}
                                 <button 
-                                    style={{backgroundColor: createForm.complete ? 'rgb(250 204 21)' : 'rgb(243 244 246)'}} 
-                                    className="px-6 py-3 bg-gray-100 rounded-md drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"
+                                    // style={{backgroundColor: createForm.complete ? 'rgb(250 204 21)' : 'rgb(243 244 246)'}} 
+                                    // className="px-6 py-3 bg-gray-100 rounded-md drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"
+                                    className={`px-6 py-3 bg-gray-100 rounded-md drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] ${!createForm.complete ? 'dark:bg-gray-500 bg-gray-100' : 'dark:bg-yellow-600 bg-yellow-500'}`}
                                     onClick={() => handleCheckBox('complete')}
                                 >
                                     Complete
@@ -174,7 +175,7 @@ const CreateWindow: React.FC<Props> = ({ page, list, setList, setTodoList, creat
                                     type="date"
                                     value={createForm.duedate}
                                     onChange={(e) => handleChange('duedate',e)}
-                                    className="drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)] px-2 py-1 rounded-md"
+                                    className="drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)] dark:text-gray-200 dark:bg-gray-500 px-2 py-1 rounded-md"
                                 />
                             </div>
                             
@@ -190,7 +191,7 @@ const CreateWindow: React.FC<Props> = ({ page, list, setList, setTodoList, creat
                                     onChange={(e) => handleTags(e.target.value)}
                                     onBlur={handleTagsSplitting}
                                     onKeyDown={handleKeyDown}
-                                    className="w-full flex px-3 py-2 rounded-md bg-gray-100 drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
+                                    className="w-full flex px-3 py-2 rounded-md dark:text-gray-200 dark:bg-gray-500 bg-gray-100 drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
                                 />
                             </div>
 
@@ -205,7 +206,7 @@ const CreateWindow: React.FC<Props> = ({ page, list, setList, setTodoList, creat
                                     value={createForm.list}
                                     onChange={(e) => handleList('list', e)}
                                     onKeyDown={handleKeyDown}
-                                    className="w-full flex px-3 py-2 rounded-md bg-gray-100 text-xl drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
+                                    className="w-full flex px-3 py-2 rounded-md dark:bg-gray-500 dark:text-gray-200 bg-gray-100 text-xl drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]"
                                 />
 
                                 <div className="relative">
@@ -232,7 +233,7 @@ const CreateWindow: React.FC<Props> = ({ page, list, setList, setTodoList, creat
 
                             </div>
                             
-                            <button onClick={handleSave} className="absolute px-6 py-2 rounded-md bottom-4 bg-white shadow-lg drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+                            <button onClick={handleSave} className="absolute px-6 py-2 rounded-md bottom-4 dark:bg-gray-500 bg-white shadow-lg drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                                 Create Todo Item
                             </button>
                         </div>
