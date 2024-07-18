@@ -110,7 +110,7 @@ const TodoItem: React.FC<Props> = ({ selectSwitch, todo, page, listLength, setTo
                 </div>
 
                 {/* todo text */}
-                <div style={{textDecorationLine: todo.complete ? 'line-through' : 'none'}} className="line-through flex flex-grow items-center justify-center px-4 p-2">
+                <div style={{textDecorationLine: todo.complete ? 'line-through' : 'none'}} className="line-through flex flex-grow items-center justify-center px-4 p-2 cursor-pointer">
                     <h1 onClick={() => handleEdit(todo.id)} style={{}} className="text-lg font-bold">{todo.text}</h1>
                 </div>
 

@@ -71,7 +71,7 @@ const EditWindow: React.FC<Props> = ({ list, setList, todo, page, setTodoList, e
 
     const handleTags = (e: string) => {
         // auto replace white space and # character with ,
-        const tags = e.replace(/\s|#/g, ',').split(',').map(a => a.trim())
+        const tags = e.replace(/\s+|#/g, ',').split(',').map(a => a.trim())
         console.log(tags)
         setForm(prev => ({
             ...prev,
@@ -200,7 +200,7 @@ const EditWindow: React.FC<Props> = ({ list, setList, todo, page, setTodoList, e
                                 <input
                                     id="tagsArray"
                                     type="text"
-                                    value={form.tags.join(', ')}
+                                    value={form.tags.join(',')}
                                     onChange={(e) => handleTags(e.target.value)}
                                     onBlur={handleTagsSplitting}
                                     onKeyDown={handleKeyDown}
@@ -223,12 +223,12 @@ const EditWindow: React.FC<Props> = ({ list, setList, todo, page, setTodoList, e
                                 />
 
                                 <div className="relative">
-                                    <button style={{transform: pageMenu ? 'rotate(0deg)' : 'rotate(90deg'}} className="" onClick={() => setPageMenu(prev => !prev)}>
+                                    <button style={{transform: pageMenu ? 'rotate(0deg)' : 'rotate(90deg'}} className="cursor-pointer" onClick={() => setPageMenu(prev => !prev)}>
                                         v
                                     </button>
 
                                     <div style={{maxHeight: pageMenu ? '100px' : '0px', border: ` ${pageMenu ? '1px solid rgba(0,0,0,0.8)' : '0px solid rgba(0,0,0,0)'}`}} 
-                                        className="overflow-scroll duration-300 absolute z-10 right-0 px-4 bg-gray-100 shadow-md drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"
+                                        className="overflow-scroll duration-300 absolute z-10 right-0 px-4 dark:bg-gray-600 bg-gray-100 shadow-md drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"
                                     >
                                         <ul>
                                             {

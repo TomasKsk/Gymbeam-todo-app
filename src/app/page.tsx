@@ -8,17 +8,20 @@ where the user can choose to go to the todos section or statistics - thats ofcou
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-5">
-      <div className="text-6xl">
-        Welcome to your advanced Todo List
-      </div>
-      <Link href="/todo-list/main">
-        <button className="px-3 py-5 rounded-xl cursor-pointer bg-white text-xl font-bold drop-shadow-[0_2.5px_2.5px_rgba(0,0,0,0.6)]">
-          Click to enter
-        </button>
-      </Link>
-      <div className="text-right text-4xl tracking-widest font-black">
-        Where you can create, read, edit, delete your todos and share them between your lists and devices
+    <main className="flex flex-col items-center w-full">
+      <div className="flex min-h-screen flex-col items-center justify-between p-5 md:max-w-[450px]">
+        <div className="text-6xl">
+          Welcome to your advanced Todo List
+        </div>
+        <Link href="/todo-list/main">
+          <button className="px-3 py-5 rounded-xl cursor-pointer bg-white text-xl font-bold drop-shadow-[0_2.5px_2.5px_rgba(0,0,0,0.6)]">
+            Click to enter
+          </button>
+        </Link>
+        <div className="text-right text-4xl tracking-widest font-black">
+          Where you can create, read, edit, delete your todos and share them between your lists and devices
+        </div>
+
       </div>
     </main>
   );
