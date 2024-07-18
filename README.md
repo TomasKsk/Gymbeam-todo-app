@@ -1,8 +1,17 @@
+This is a case study assignment from GymBeam - to create a todo application.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
-First, run the development server:
+The packages require npm, yarn, etc to run the reaquired packages
+
+First, install the dependencies with the following command:
+```bash
+npm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev

@@ -37,9 +37,6 @@ const Header: React.FC<Props> = ({ page, list }) => {
             <h1 className="text-2xl font-bold pb-2">
                 Your Todos
             </h1>
-            <div className="flex flex-row gap-4 absolute top-2 left-2 w-full text-left">
-                {`${date.getDate()}. ${date.toLocaleString('default', { month: 'long' })}`}
-            </div>
 
             {/* theme toggler */}
             <div onClick={() => setDarkMode(!darkMode)} className="flex flex-row gap-2 items-center absolute md:left-20 right-4 top-6 md:top-2">
