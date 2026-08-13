@@ -175,7 +175,7 @@ The application uses partial TypeScript updates when only selected fields need t
 
 For example, completing a task updates its completion status and completion date without replacing the entire todo object.  
 
-## Tesk Ordering  
+## Task Ordering  
 Fetched todo items are processed before being displayed.  
 
 The application prioritizes:  
