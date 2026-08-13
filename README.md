@@ -67,6 +67,7 @@ The application supports both light and dark UI themes.
 ## Application Structure
 The project separates reusable UI components, TypeScript models and API/helper functions.  
 
+```
 src/app/
 ├── components/
 │   ├── AddButton.tsx
@@ -93,7 +94,8 @@ src/app/
 │
 ├── layout.tsx
 └── page.tsx  
-  
+
+```
 ## TypeScript Data Model
 Each todo item is represented by a TypeScript interface containing both task data and metadata.
 
