@@ -215,7 +215,7 @@ Mobile
 
 Tailwind responsive utility classes are used to adapt the interface based on viewport size.  
 
-## Running the Project Locally
+# Running the Project Locally
 Requirements  
 * Node.js
 * npm
