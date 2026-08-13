@@ -154,7 +154,7 @@ The returned data is then filtered for the selected list and stored in React sta
 
 After create, update or delete operations, the affected application state is refreshed so the UI remains synchronized with the remote data.  
 
-## Creating Taska
+## Creating Tasks
 A new task can contain:  
 
 * task text
