@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useCallback } from 'react';
+import { use, useState, useEffect, useCallback } from 'react';
 import { deleteTodo, fetchTodos } from '../../utils/api';
 import { SelectSwitch, Todo } from "../../types/todo";
 import Header from '../../components/Header';
@@ -9,13 +9,13 @@ import CreateWindow from '../../components/CreateWindow';
 import { useRouter } from 'next/navigation';
 
 interface Props {
-    params: {
+    params: Promise<{
         list: string;
-    };
+    }>;
 }
 
 const Page: React.FC<Props> = ({ params }) => {
-    const page = params.list;
+    const { list: page } = use(params);
     const router = useRouter();
 
     const [todoList, setTodoList] = useState<Todo[]>([]);
@@ -40,7 +40,7 @@ const Page: React.FC<Props> = ({ params }) => {
     };
 
     const handleBulkDelete = useCallback(async () => {
-        var result = confirm("Are you sure you want to delete all selected items?");
+        let result = confirm("Are you sure you want to delete all selected items?");
         if (result) {
             try {
                 await Promise.all(selectSwitch.multiSelectItems.map(id => deleteTodo(id)));
